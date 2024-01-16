@@ -19,7 +19,7 @@ function doClientes() {
       inicio = (paginaActual - 1) * resultadosPorPagina;
     }
 
-    let parametroPorPagina = "&porpagina" + resultadosPorPagina;
+    let parametroPorPagina = "&porpagina=" + resultadosPorPagina;
 
     const parametroInicio = "?inicio= " + inicio;
 
