@@ -31,7 +31,7 @@ function doClientes(){
 
                 contactoContenedor.querySelector(".contacto-nombre").textContent = contacto.nombre + " " + contacto.nombre + " "+contacto.apellido1+" "+ contacto.apellido2 ;
                 contactoContenedor.querySelector(".contacto-telefono").textContent = contacto.telefono1;
-                contactoContenedor.querySelector(".contacto-email").textContent = contacto.email;
+                contactoContenedor.querySelector(".contacto-email").textContent = contacto.email1;
                 clientesContactosContenedor.append(contactoContenedor);
             })
             contenedorListado.append(clienteContenedor);
