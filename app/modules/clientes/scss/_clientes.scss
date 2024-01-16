@@ -1,24 +1,24 @@
-.cliente-row{
-    display: flex;
-    gap: .5rem;
-    border: 1px solid $color-gris-medio;
-    margin-bottom: .5rem;
+.cliente-row {
+  display: flex;
+  gap: 0.5rem;
+  border: 1px solid $color-gris-medio;
+  margin-bottom: 0.5rem;
 
-    .cliente-row-datos{
-        flex-basis: 30%;
-        padding: .5rem 1rem;
-        .cliente-datos-nombre{
-            background-color: lighten($color-azul, 35%);
-            padding: .5rem;
-        }
+  .cliente-row-datos {
+    flex-basis: 30%;
+    padding: 0.5rem 1rem;
+    .cliente-datos-nombre {
+      background-color: lighten($color-azul, 35%);
+      padding: 0.5rem;
     }
-    .cliente-row-contactos{
-        flex-grow: 1;
-        flex-shrink: 0;
-        padding: .5rem 1rem;
-        border-left: 1px dashed black;
-    }
-    &:nth-of-type(odd){
-        background-color: $color-gris-suave;
-    }
+  }
+  .cliente-row-contactos {
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    border-left: 1px dashed black;
+  }
+  &:nth-of-type(odd) {
+    background-color: $color-gris-suave;
+  }
 }

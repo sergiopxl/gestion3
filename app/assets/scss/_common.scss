@@ -28,3 +28,32 @@ main{
 .btn-info{
   @include btn($color-info);
 }
+.hidden{
+  display: none !important;
+}
+
+.acciones-paginacion {
+  display: flex;
+justify-content: space-between;
+align-items: center;
+  padding: 1% 0;
+}
+#paginacion {
+    display: flex;
+    gap:0.7rem;
+  }/*# sourceMappingURL=theme.css.map */
+
+.elemento-paginacion{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem;
+  min-width: 2rem;
+  border-radius: .3rem;
+  background-color: $color-gris-suave;
+  cursor:pointer;
+  &.elemento-paginacion-actual{
+    background-color: $color-gris-oscuro;
+    color:white;
+  }
+}

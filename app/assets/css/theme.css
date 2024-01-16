@@ -88,6 +88,36 @@ main {
   background-color: white;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.acciones-paginacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1% 0;
+}
+
+#paginacion {
+  display: flex;
+  gap: 0.7rem;
+} 
+.elemento-paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  min-width: 2rem;
+  border-radius: 0.3rem;
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
+.elemento-paginacion.elemento-paginacion-actual {
+  background-color: #343434;
+  color: white;
+}
+
 #header-pagina {
   background-color: #b1b0b0;
   display: flex;
