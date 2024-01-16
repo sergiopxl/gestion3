@@ -20,7 +20,7 @@ while($cliente= mysqli_fetch_assoc($resultadoClientes)){
     while($contacto = mysqli_fetch_assoc($resultadoContactos)){
         $contactos[] = $contacto;
     }    
-    $cliente["contacto"] = $contactos;
+    $cliente["contactos"] = $contactos;
     $clientes[] = $cliente; 
 }
 echo json_encode($clientes);
