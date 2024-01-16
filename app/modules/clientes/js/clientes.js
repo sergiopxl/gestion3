@@ -63,25 +63,17 @@ function doClientes() {
         const contactoContenedor = templateContacto.cloneNode(true);
         contactoContenedor.classList.remove("hidden");
 
-        contactoContenedor.querySelector(".contacto-nombre").textContent =
-          contacto.nombre +
-          " " +
-          contacto.nombre +
-          " " +
-          contacto.apellido1 +
-          " " +
-          contacto.apellido2;
-        contactoContenedor.querySelector(".contacto-telefono").textContent =
-          contacto.telefono1;
-        contactoContenedor.querySelector(".contacto-email").textContent =
-          contacto.email1;
-        clientesContactosContenedor.append(contactoContenedor);
-      });
-      contenedorListado.append(clienteContenedor);
-    });
-  }
-  
-  getClientes();
+                contactoContenedor.querySelector(".contacto-nombre").textContent = contacto.nombre + " " + contacto.nombre + " "+contacto.apellido1+" "+ contacto.apellido2 ;
+                contactoContenedor.querySelector(".contacto-telefono").textContent = contacto.telefono1;
+                contactoContenedor.querySelector(".contacto-email").textContent = contacto.email;
+                clientesContactosContenedor.append(contactoContenedor);
+            })
+            contenedorListado.append(clienteContenedor);
+
+            
+        })
+    }
+    getClientes();
 }
 
 doClientes();
