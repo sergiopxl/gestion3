@@ -9,6 +9,12 @@ header("Access-Control-Allow-Methods: GET");
 include ("conn/conexion.php");
 $inicio = $_GET["inicio"];
 $porPagina = $_GET["porpagina"];
+$condicion = " WHERE activo = 1 ";
+
+if(isset($_GET["buscar"])){
+    $buscar = $_GET["buscar"];
+    $condicion = " WHERE activo = 1 AND (cliente_tb.nombre LIKE '%$buscar%' OR clientes_tb.cif '$buscar') ";
+}
 
 $limite = " LIMIT $inicio, $porPagina ";
 $respuesta = [];
@@ -20,7 +26,9 @@ $respuestaNumerosRegistros = mysqli_query($conn,$sqlNumeroRegistros);
     $fila = mysqli_fetch_assoc($respuestaNumerosRegistros);
     $respuesta["numero_registros"] = $fila['numero_registros'];
 
-$sqlClientes = "SELECT * FROM `clientes_tb` WHERE activo = 1 $limite";
+$sqlClientes = "SELECT clientes_tb.*, clientes_sectores_tb.nombre AS sector
+FROM clientes_tb
+LEFT JOIN clientes_sectores_tb ON clientes_tb.id_sector = clientes_sectores_tb.id $condicion $limite";
 $resultadoClientes = mysqli_query($conn,$sqlClientes);
 //var_dump($resultadoClientes);
 $clientes = [];

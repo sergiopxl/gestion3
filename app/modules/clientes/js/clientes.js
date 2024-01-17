@@ -86,6 +86,8 @@ function doClientes() {
                 cliente.telefono;
             clienteContenedor.querySelector(".cliente-datos-direccion").textContent =
                 cliente.direccion;
+            clienteContenedor.querySelector(".cliente-datos-sector").textContent =
+               "Sector: " + cliente.sector;
 
 
             cliente.contactos.forEach((contacto, index) => {
