@@ -42,12 +42,12 @@ function doClientes() {
 
         const parametroInicio = "?inicio= " + inicio;
 
-        fetch(apiUrlClientesGet + parametroInicio + parametroPorPagina, {
+        fetch(apiUrlClientesGet + parametroInicio + parametroPorPagina + parametroBuscar, {
             method: "GET",
         }).then((respuesta) => {
             respuesta.json().then((clientes) => {
                 //console.log(clientes);
-                printlistaClientes(clientes.numero_registros, clientes.clientes);
+                printlistaClientes(clientes.numero_registros, clientes.clientes, buscar);
             });
         });
     };

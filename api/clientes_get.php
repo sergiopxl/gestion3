@@ -13,7 +13,7 @@ $condicion = " WHERE activo = 1 ";
 
 if(isset($_GET["buscar"])){
     $buscar = $_GET["buscar"];
-    $condicion = " WHERE activo = 1 AND (cliente_tb.nombre LIKE '%$buscar%' OR clientes_tb.cif '$buscar') ";
+    $condicion = " WHERE activo = 1 AND (clientes_tb.nombre LIKE '%$buscar%' OR clientes_tb.cif LIKE '%$buscar%') ";
 }
 
 $limite = " LIMIT $inicio, $porPagina ";
