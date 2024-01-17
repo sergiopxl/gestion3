@@ -109,9 +109,7 @@ function doClientes() {
 
         contactoContenedor.querySelector(".contacto-nombre").textContent =
           contacto.nombre +
-          " " +
-          contacto.nombre +
-          " " +
+          " " +          
           contacto.apellido1 +
           " " +
           contacto.apellido2;
@@ -130,7 +128,7 @@ function doEditar(cliente){
     const bloqueFormulario = document.querySelector("#bloque-formulario").cloneNode(true);
     const clienteFormularioEdicion = bloqueFormulario.querySelector("#cliente-formulario");
     const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
-    //const botonEnviar = clienteFormularioEdicion.querySelector("#formulario-boton-enviar");
+    const botonEnviar = clienteFormularioEdicion.querySelector("#formulario-boton-enviar");
     //datos
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-id']").value = cliente.id;
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-nombre']").value = cliente.nombre;
@@ -140,6 +138,17 @@ function doEditar(cliente){
     
     getClientesSectores();
     //setContactos();
+
+    botonEnviar.addEventListener("click", (event) =>{
+        // previene que el evento no tenga ninguna funcionalidad por defecto
+        event.preventDefault();
+        const datosFormulario = new FormData(clienteFormularioEdicion);
+        fetch(apiUrlClientesUpdate, {method: "POST", body: datosFormulario})
+        .then(response => response.json()
+        .then(data => {
+            console.log(data);
+        }));        
+    });
 
     function getClientesSectores(){
         fetch(apiUrlClientesSectoresGet,{method: "GET"})
@@ -155,7 +164,7 @@ function doEditar(cliente){
                 clientesSelectSector.append(opcionSector);
             })
         }))
-        fetch(apiUrlClientesSectoresGet, {method: "GET"})
+        
     }
 
     contenedorListado.innerHTML="";

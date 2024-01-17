@@ -5,3 +5,4 @@ const apiUrlClientesSectoresGet = "http://localhost/gestion3/api/clientes_sector
 const apiUrlAvisosGet = "http://localhost/gestion3/api/avisos_get.php";
 const apiUrlFacturasGet = "http://localhost/gestion3/api/facturas_get.php";
 const apiUrlComunicacionesGet = "http://localhost/gestion3/api/comunicaciones_get.php";
+const apiUrlClientesUpdate = "http://localhost/gestion3/api/clientes_update.php";

@@ -9,18 +9,18 @@ include ("conn/conexion.php");
 
 $nombre = $_POST["input-cliente-nombre"];
 $cif = $_POST["input-cliente-cif"];
-$telefono = $_POST["input-cliente-cif"];
-$direccion = $_POST["input-cliente-cif"];
-$idSector = $_POST["input-cliente-cif"];
-$idCliente = $_POST["input-cliente-cif"];
+$telefono = $_POST["input-cliente-tlf"];
+$direccion = $_POST["input-cliente-direccion"];
+$idSector = $_POST["select-cliente-sector"];
+$idCliente = $_POST["input-cliente-id"];
 
-$sqñClienteUpdate = "UPDATE clientes_tb SET
+$sqlClienteUpdate = "UPDATE clientes_tb SET
 nombre= '$nombre',
 cif= '$cif',
 telefono = '$telefono',
 direccion = '$direccion',
 id_sector = '$idSector' WHERE id=$idCliente";
-$respuesta = mysqli_query($conn, $sqliClientesUpdate);
+$respuesta = mysqli_query($conn, $sqlClienteUpdate);
 
 if($respuesta){
     $mensaje = "Registro actalizado correctamente";
