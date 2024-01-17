@@ -1,180 +1,238 @@
 "use strict";
 console.log("clientes.js 1.1");
+
 function doClientes() {
-  //declaracion de variabless
-  let paginaActual = 1;
-  const resultadosPorPagina = 20;
+    //declaracion de variabless
+    let paginaActual = 1;
+    const resultadosPorPagina = 20;
 
-  const contenedorListado = document.querySelector("main");
-  const templateCliente = document.querySelector(".cliente-row");
+    const contenedorListado = document.querySelector("main");
+    const templateCliente = document.querySelector(".cliente-row");
 
-  const buscadorInput = document.querySelector("#buscador-input");
-  const buscadorBoton = document.querySelector("#buscador-boton");
-  buscadorBoton.addEventListener("click", () => {
-    if (buscadorInput.value != "") {
-      paginaActual = 1;
-      getClientes(paginaActual, buscadorInput.value);
+    const buscadorInput = document.querySelector("#buscador-input");
+    const buscadorBoton = document.querySelector("#buscador-boton");
+    buscadorBoton.addEventListener("click", () => {
+        if (buscadorInput.value != "") {
+            paginaActual = 1;
+            getClientes(paginaActual, buscadorInput.value);
+        }
+    });
+
+    //funcion que recibe pagina actual
+    const getClientes = (actual, buscar) => {
+        let parametroBuscar = "";
+        let busquedaActiva = false;
+        let parametroPorPagina = "&porpagina=" + resultadosPorPagina;
+        let inicio;
+
+        if (actual) paginaActual = actual;
+        if (paginaActual == 1) inicio = 0;
+        else {
+            inicio = (paginaActual - 1) * resultadosPorPagina;
+        }
+
+        if (buscar && buscar != "") {
+            parametroBuscar = "&buscar=" + buscar;
+            busquedaActiva = true;
+            parametroPorPagina = "&porpagina=" + 99999;
+        }
+
+        const parametroInicio = "?inicio= " + inicio;
+
+        fetch(
+            apiUrlClientesGet +
+            parametroInicio +
+            parametroPorPagina +
+            parametroBuscar, {
+            method: "GET",
+        }
+        ).then((respuesta) => {
+            respuesta.json().then((clientes) => {
+                //console.log(clientes);
+                printlistaClientes(
+                    clientes.numero_registros,
+                    clientes.clientes,
+                    buscar
+                );
+            });
+        });
+    };
+
+    function printlistaClientes(registros, clientes, busqueda) {
+        contenedorListado.innerHTML = "";
+        if (!busqueda) {
+            doPaginacion(paginaActual, resultadosPorPagina, registros, getClientes);
+        } else {
+            const verTodoBoton = document.createElement("button");
+            verTodoBoton.classList.add("btn-info");
+            verTodoBoton.textContent = "Ver listado completo";
+            verTodoBoton.addEventListener("click", () => {
+                getClientes();
+            });
+            document.querySelector("#paginacion").innerHTML =
+                "<h2> Resultados busqueda:" + clientes.length + "</h2>";
+            document.querySelector("#paginacion").append(verTodoBoton);
+        }
+
+        clientes.forEach((cliente) => {
+            const clienteContenedor = templateCliente.cloneNode(true);
+            clienteContenedor.classList.remove("hidden");
+
+            const clientesContactosContenedor = clienteContenedor.querySelector(
+                ".cliente-row-contactos"
+            );
+            const templateContacto = clientesContactosContenedor.querySelector(
+                ".contactos-contacto"
+            );
+
+            const clienteBotonEditar = clienteContenedor.querySelector(
+                ".cliente-botones-editar"
+            );
+            //const clienteBotonFactura = clienteContenedor.querySelector(".cliente-botones-factura");
+            clienteBotonEditar.addEventListener("click", () => {
+                doEditar(cliente);
+            });
+
+            clienteContenedor.querySelector(".cliente-datos-nombre").textContent =
+                cliente.nombre;
+            clienteContenedor.querySelector(".cliente-datos-cif").textContent =
+                cliente.cif;
+            clienteContenedor.querySelector(".cliente-datos-tlf").textContent =
+                cliente.telefono;
+            clienteContenedor.querySelector(".cliente-datos-direccion").textContent =
+                cliente.direccion;
+            clienteContenedor.querySelector(".cliente-datos-sector").textContent =
+                "Sector: " + cliente.sector;
+
+            cliente.contactos.forEach((contacto, index) => {
+                const contactoContenedor = templateContacto.cloneNode(true);
+                contactoContenedor.classList.remove("hidden");
+
+                contactoContenedor.querySelector(".contacto-nombre").textContent =
+                    contacto.nombre + " " + contacto.apellido1 + " " + contacto.apellido2;
+                contactoContenedor.querySelector(".contacto-telefono").textContent =
+                    contacto.telefono1;
+                contactoContenedor.querySelector(".contacto-email").textContent =
+                    contacto.email;
+                clientesContactosContenedor.append(contactoContenedor);
+            });
+            contenedorListado.append(clienteContenedor);
+        });
     }
-  });
 
-  //funcion que recibe pagina actual
-  const getClientes = (actual, buscar) => {
-    let parametroBuscar = "";
-    let busquedaActiva = false;
-    let parametroPorPagina = "&porpagina=" + resultadosPorPagina;
-    let inicio;
-
-    if (actual) paginaActual = actual;
-    if (paginaActual == 1) inicio = 0;
-    else {
-      inicio = (paginaActual - 1) * resultadosPorPagina;
-    }
-
-    if (buscar && buscar != "") {
-      parametroBuscar = "&buscar=" + buscar;
-      busquedaActiva = true;
-      parametroPorPagina = "&porpagina=" + 99999;
-    }
-
-    const parametroInicio = "?inicio= " + inicio;
-
-    fetch(
-      apiUrlClientesGet +
-        parametroInicio +
-        parametroPorPagina +
-        parametroBuscar,
-      {
-        method: "GET",
-      }
-    ).then((respuesta) => {
-      respuesta.json().then((clientes) => {
-        //console.log(clientes);
-        printlistaClientes(
-          clientes.numero_registros,
-          clientes.clientes,
-          buscar
+    function doEditar(cliente) {
+        const bloqueFormulario = document
+            .querySelector("#bloque-formulario")
+            .cloneNode(true);
+        const clienteFormularioEdicion = bloqueFormulario.querySelector(
+            "#cliente-formulario"
         );
-      });
-    });
-  };
-  function printlistaClientes(registros, clientes, busqueda) {
-    contenedorListado.innerHTML = "";
-    if (!busqueda) {
-      doPaginacion(paginaActual, resultadosPorPagina, registros, getClientes);
-    } else {
-      const verTodoBoton = document.createElement("button");
-      verTodoBoton.classList.add("btn-info");
-      verTodoBoton.textContent = "Ver listado completo";
-      verTodoBoton.addEventListener("click", () => {
-        getClientes();
-      });
-      document.querySelector("#paginacion").innerHTML =
-        "<h2> Resultados busqueda:" + clientes.length + "</h2>";
-      document.querySelector("#paginacion").append(verTodoBoton);
+        const clientesSelectSector = clienteFormularioEdicion.querySelector(
+            "[name = 'select-cliente-sector']"
+        );
+        const botonEnviar = clienteFormularioEdicion.querySelector(
+            "#formulario-boton-enviar"
+        );
+        const contactosContenedor = bloqueFormulario.querySelector(
+            "#cliente-contactos-contenedor-formulario"
+        );
+        const contactoFormulario = contactosContenedor.querySelector("form");
+        //datos
+        clienteFormularioEdicion.querySelector(
+            "[name = 'input-cliente-id']"
+        ).value = cliente.id;
+        clienteFormularioEdicion.querySelector(
+            "[name = 'input-cliente-nombre']"
+        ).value = cliente.nombre;
+        clienteFormularioEdicion.querySelector(
+            "[name = 'input-cliente-cif']"
+        ).value = cliente.cif;
+        clienteFormularioEdicion.querySelector(
+            "[name = 'input-cliente-tlf']"
+        ).value = cliente.telefono;
+        clienteFormularioEdicion.querySelector(
+            "[name = 'input-cliente-direccion']"
+        ).value = cliente.direccion;
+
+        getClientesSectores();
+        setContactos();
+
+        botonEnviar.addEventListener("click", (event) => {
+            // previene que el evento no tenga ninguna funcionalidad por defecto
+            event.preventDefault();
+            const datosFormulario = new FormData(clienteFormularioEdicion);
+            fetch(apiUrlClientesUpdate, {
+                method: "POST",
+                body: datosFormulario,
+            }).then((response) =>
+                response.json().then((data) => {
+                    console.log(data);
+                })
+            );
+        });
+
+        function getClientesSectores() {
+            fetch(apiUrlClientesSectoresGet, {
+                method: "GET"
+            }).then((respuesta) =>
+                respuesta.json().then((sectores) => {
+                    sectores.forEach((sector) => {
+                        const opcionSector = document.createElement("option");
+                        opcionSector.value = sector.id;
+                        opcionSector.textContent = sector.nombre;
+                        if (sector.id == cliente.id_sector) {
+                            opcionSector.setAttribute("selected", "selected");
+                        }
+                        clientesSelectSector.append(opcionSector);
+                    });
+                })
+            );
+        }
+
+        function setContactos() {
+            cliente.contactos.forEach((contacto) => {
+                const nuevoFormularioContacto = contactoFormulario.cloneNode(true);
+                nuevoFormularioContacto.querySelector(
+                    "[name = 'input-contacto-id']"
+                ).value = contacto.id;
+                nuevoFormularioContacto.querySelector(
+                    "[name = 'input-contacto-nombre']"
+                ).value = contacto.nombre;
+                nuevoFormularioContacto.querySelector(
+                    "[name = 'input-contacto-apellido1']"
+                ).value = contacto.apellido1;
+                nuevoFormularioContacto.querySelector(
+                    "[name = 'input-contacto-apellido2']"
+                ).value = contacto.apellido2;
+                nuevoFormularioContacto.querySelector(
+                    "[name = 'input-contacto-telefono']"
+                ).value = contacto.telefono1;
+                nuevoFormularioContacto.querySelector(
+                    "[name = 'input-contacto-email']"
+                ).value = contacto.email1;
+                const botonEnviar =
+                    nuevoFormularioContacto.querySelector("button.enviar");
+                const botonEliminar =
+                    nuevoFormularioContacto.querySelector("button.eliminar");
+                botonEnviar.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    console.log("enviando cambios de contacto", contacto.id);
+                });
+                botonEliminar.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    console.log("enviando cambios de contacto", contacto.id);
+                });
+
+                nuevoFormularioContacto.classList.remove("hidden");
+                contactosContenedor.append(nuevoFormularioContacto);
+            });
+        }
+
+        contenedorListado.innerHTML = "";
+        contenedorListado.append(bloqueFormulario);
+        bloqueFormulario.classList.remove("hidden");
     }
-
-    clientes.forEach((cliente) => {
-      const clienteContenedor = templateCliente.cloneNode(true);
-      clienteContenedor.classList.remove("hidden");
-
-      const clientesContactosContenedor = clienteContenedor.querySelector(
-        ".cliente-row-contactos"
-      );
-      const templateContacto = clientesContactosContenedor.querySelector(
-        ".contactos-contacto"
-      );
-
-      const clienteBotonEditar = clienteContenedor.querySelector(
-        ".cliente-botones-editar"
-      );
-      //const clienteBotonFactura = clienteContenedor.querySelector(".cliente-botones-factura");
-      clienteBotonEditar.addEventListener("click", () => {
-        doEditar(cliente);
-      });
-
-      clienteContenedor.querySelector(".cliente-datos-nombre").textContent =
-        cliente.nombre;
-      clienteContenedor.querySelector(".cliente-datos-cif").textContent =
-        cliente.cif;
-      clienteContenedor.querySelector(".cliente-datos-tlf").textContent =
-        cliente.telefono;
-      clienteContenedor.querySelector(".cliente-datos-direccion").textContent =
-        cliente.direccion;
-      clienteContenedor.querySelector(".cliente-datos-sector").textContent =
-        "Sector: " + cliente.sector;
-
-      cliente.contactos.forEach((contacto, index) => {
-        const contactoContenedor = templateContacto.cloneNode(true);
-        contactoContenedor.classList.remove("hidden");
-
-        contactoContenedor.querySelector(".contacto-nombre").textContent =
-          contacto.nombre +
-          " " +          
-          contacto.apellido1 +
-          " " +
-          contacto.apellido2;
-        contactoContenedor.querySelector(".contacto-telefono").textContent =
-          contacto.telefono1;
-        contactoContenedor.querySelector(".contacto-email").textContent =
-          contacto.email;
-        clientesContactosContenedor.append(contactoContenedor);
-      });
-      contenedorListado.append(clienteContenedor);
-    });
-  }
-
-function doEditar(cliente){
-
-    const bloqueFormulario = document.querySelector("#bloque-formulario").cloneNode(true);
-    const clienteFormularioEdicion = bloqueFormulario.querySelector("#cliente-formulario");
-    const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
-    const botonEnviar = clienteFormularioEdicion.querySelector("#formulario-boton-enviar");
-    //datos
-    clienteFormularioEdicion.querySelector("[name = 'input-cliente-id']").value = cliente.id;
-    clienteFormularioEdicion.querySelector("[name = 'input-cliente-nombre']").value = cliente.nombre;
-    clienteFormularioEdicion.querySelector("[name = 'input-cliente-cif']").value = cliente.cif;
-    clienteFormularioEdicion.querySelector("[name = 'input-cliente-tlf']").value = cliente.telefono;
-    clienteFormularioEdicion.querySelector("[name = 'input-cliente-direccion']").value = cliente.direccion;
-    
-    getClientesSectores();
-    //setContactos();
-
-    botonEnviar.addEventListener("click", (event) =>{
-        // previene que el evento no tenga ninguna funcionalidad por defecto
-        event.preventDefault();
-        const datosFormulario = new FormData(clienteFormularioEdicion);
-        fetch(apiUrlClientesUpdate, {method: "POST", body: datosFormulario})
-        .then(response => response.json()
-        .then(data => {
-            console.log(data);
-        }));        
-    });
-
-    function getClientesSectores(){
-        fetch(apiUrlClientesSectoresGet,{method: "GET"})
-        .then(respuesta => respuesta.json()
-        .then(sectores =>{
-            sectores.forEach(sector => {
-                const opcionSector = document.createElement("option");
-                opcionSector.value = sector.id;
-                opcionSector.textContent = sector.nombre;
-                if(sector.id == cliente.id_sector){
-                    opcionSector.setAttribute("selected", "selected");
-                }
-                clientesSelectSector.append(opcionSector);
-            })
-        }))
-        
-    }
-
-    contenedorListado.innerHTML="";
-    contenedorListado.append(bloqueFormulario);
-    bloqueFormulario.classList.remove("hidden");
-
+    getClientes();
 }
-  getClientes();
-}
-
-
 
 doClientes();
