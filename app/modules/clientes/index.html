@@ -41,31 +41,59 @@
         <button class="btn-info" id="buscador-boton">Buscar</button>
       </div>
     </div>
-    <main>
-      
-
-
-        <div class="cliente-row hidden">
-          <div class="cliente-row-datos">
-            <div class="cliente-botones">
-              <button class="btn-info cliente-botones-editar">editar</button>
-              <button class="btn-info cliente-botones-factura">nueva factura</button>
-            </div>
-            <p class="cliente-datos-nombre">Nombre</p>
-            <p class="cliente-datos-cif">b000000</p>
-            <p class="cliente-datos-tlf">910000000</p>
-            <p class="cliente-datos-direccion">c/constitucion 1</p>
-            <p class="cliente-datos-sector">a</p>
-          </div>
-          <div class="cliente-row-contactos">
-            <div class="contactos-contacto hidden">
-              <p class="contacto-nombre">Sergio Gonzalez</p>
-              <p class="contacto-telefono">673694643</p>
-              <p class="contacto-email">salahgabana@gmail.com</p>
-            </div>
-          </div>
+    <h1 id="h1-apartado"></h1>
+    <main>    
+    </main>
+    <div class="cliente-row hidden">
+      <div class="cliente-row-datos">
+        <div class="cliente-botones">
+          <button class="btn-info cliente-botones-editar">editar</button>
+          <button class="btn-info cliente-botones-factura">nueva factura</button>
+        </div>
+        <p class="cliente-datos-nombre">Nombre</p>
+        <p class="cliente-datos-cif">b000000</p>
+        <p class="cliente-datos-tlf">910000000</p>
+        <p class="cliente-datos-direccion">c/constitucion 1</p>
+        <p class="cliente-datos-sector">a</p>
+      </div>
+      <div class="cliente-row-contactos">
+        <div class="contactos-contacto hidden">
+          <p class="contacto-nombre">Sergio Gonzalez</p>
+          <p class="contacto-telefono">673694643</p>
+          <p class="contacto-email">salahgabana@gmail.com</p>
         </div>
       </div>
-    </main>
+    </div>
+
+    <div id="bloque-formulario" class="hidden">
+      <form action="" id="cliente-formulario">
+        <input type="hidden" name="input-cliente-id">
+        <fieldset>
+          <label for="input-cliente-nombre">Nombre</label>
+          <input type="text" name="input-cliente-nombre" required="required">
+        </fieldset>
+        <fieldset>
+          <label for="input-cliente-cif">CIF</label>
+          <input type="text" name="input-cliente-cif" required="required">
+        </fieldset>
+        <fieldset>
+          <label for="input-cliente-tlf">Telefono</label>
+          <input type="text" name="input-cliente-tlf">
+        </fieldset>
+        <fieldset>
+          <label for="input-cliente-direccion">Direccion</label>
+          <input type="text" name="input-cliente-direccion">
+        </fieldset>
+        <fieldset>
+          <label for="select-cliente-sector">Sector</label>
+            <select name="select-cliente-sector" required="required">
+              <option value="0" selected disabled>Seleccione un sector</option>
+            </select>
+        </fieldset>
+        <button id="formulario-boton-enviar" class="btn-success">Guardar cambios</button>
+      </form>
+    </div>
+
+  
   </body>
 </html>
