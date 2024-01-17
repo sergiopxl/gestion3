@@ -142,6 +142,23 @@ function doEditar(cliente){
     //getClientesSectores();
     //setContactos();
 
+    function getClientesSectores(){
+        fetch(apiUrlCLientesSectoresGet,{method: "GET"})
+        .then(respuesta => respuesta.json()
+        .then(sectores =>{
+            sectores.forEach(sector => {
+                const opcionSector = document.createElement("option");
+                opcionSector.value = sector.id;
+                opcionSector.textContent = sector.nombre;
+                if(sector.id == cliente.id_sector){
+                    opcionSector.setAttribute("selected", "selected");
+                }
+                clientesSelectSector.append(opcionSector);
+            })
+        }))
+        fetch(apiUrlCLientesSectoresGet, {method: "GET"})
+    }
+
     contenedorListado.innerHTML="";
     contenedorListado.append(bloqueFormulario);
     bloqueFormulario.classList.remove("hidden");
