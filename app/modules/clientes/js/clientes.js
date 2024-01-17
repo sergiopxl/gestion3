@@ -128,22 +128,21 @@ function doClientes() {
 function doEditar(cliente){
 
     const bloqueFormulario = document.querySelector("#bloque-formulario").cloneNode(true);
-
     const clienteFormularioEdicion = bloqueFormulario.querySelector("#cliente-formulario");
-    const clientesSelectSector = clienteFormularioEdicion.querySelector("#formulario-boton-enviar");
+    const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
+    //const botonEnviar = clienteFormularioEdicion.querySelector("#formulario-boton-enviar");
     //datos
-
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-id']").value = cliente.id;
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-nombre']").value = cliente.nombre;
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-cif']").value = cliente.cif;
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-tlf']").value = cliente.telefono;
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-direccion']").value = cliente.direccion;
-
-    //getClientesSectores();
+    
+    getClientesSectores();
     //setContactos();
 
     function getClientesSectores(){
-        fetch(apiUrlCLientesSectoresGet,{method: "GET"})
+        fetch(apiUrlClientesSectoresGet,{method: "GET"})
         .then(respuesta => respuesta.json()
         .then(sectores =>{
             sectores.forEach(sector => {
@@ -156,7 +155,7 @@ function doEditar(cliente){
                 clientesSelectSector.append(opcionSector);
             })
         }))
-        fetch(apiUrlCLientesSectoresGet, {method: "GET"})
+        fetch(apiUrlClientesSectoresGet, {method: "GET"})
     }
 
     contenedorListado.innerHTML="";
@@ -165,8 +164,8 @@ function doEditar(cliente){
 
 }
   getClientes();
-
-
 }
+
+
 
 doClientes();
