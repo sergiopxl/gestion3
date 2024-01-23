@@ -202,23 +202,7 @@ function doClientes() {
       });
     };
     
-    function getClientesSectores() {
-      fetch(apiUrlClientesSectoresGet, {
-        method: "GET"
-      }).then((respuesta) =>
-        respuesta.json().then((sectores) => {
-          sectores.forEach((sector) => {
-            const opcionSector = document.createElement("option");
-            opcionSector.value = sector.id;
-            opcionSector.textContent = sector.nombre;
-            if (sector.id == cliente.id_sector) {
-              opcionSector.setAttribute("selected", "selected");
-            }
-            clientesSelectSector.append(opcionSector);
-          });
-        })
-      );
-    }
+    
 
     contenedorListado.innerHTML = "";
     contenedorListado.append(bloqueFormulario);
@@ -265,10 +249,11 @@ function doClientes() {
     const clienteFormularioEdicion = bloqueFormulario.querySelector(".cliente-formulario")
     bloqueFormulario.querySelector(".cliente-contactos-contenedor-formulario").remove();
     
-    const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-selector']");
+    const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
     const botonNuevoClienteEnviar = clienteFormularioEdicion.querySelector(".formulario-boton-enviar");
     //llamaa a carga de sectores clientes
     getClientesSectores(clientesSelectSector, "");
+    console.log("clientes, " + clientesSelectSector);
 
     botonNuevoClienteEnviar.addEventListener("click", (e) =>{
       e.preventDefault();
@@ -281,7 +266,32 @@ function doClientes() {
 
     function guardarNuevoCliente(){
       const datosFormulario = new FormData(clienteFormularioEdicion);
+      fetch(apiUrlClientesInsert, {method: "POST", body: datosFormulario})
+      .then(respuesta) => {
+        if(!respuesta.ok){
+          throw new Error(`Error en la solicitud: ${respuesta.status}`);
+        }
+        return respuesta.json();
+      }
     }
+  }
+  function getClientesSectores(clientesSelectSector, clienteIdSector) {
+    
+    fetch(apiUrlClientesSectoresGet, {
+      method: "GET"
+    }).then((respuesta) =>
+      respuesta.json().then((sectores) => {
+        sectores.forEach((sector) => {
+          const opcionSector = document.createElement("option");
+          opcionSector.value = sector.id;
+          opcionSector.textContent = sector.nombre;
+          if (clienteIdSector != undefined && sector.id == clienteIdSector) {
+            opcionSector.setAttribute("selected", "selected");
+          }
+          clientesSelectSector.append(opcionSector);
+        });
+      })
+    );
   }
 
   getClientes();
