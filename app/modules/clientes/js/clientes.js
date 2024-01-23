@@ -3,7 +3,7 @@ console.log("clientes.js 1.1");
 function doClientes() {
   //declaracion de variabless
   let paginaActual = 1;
-  const resultadosPorPagina = 20;
+  const resultadosPorPagina = 200;
 
   const contenedorListado = document.querySelector("main");
   const templateCliente = document.querySelector(".cliente-row");
@@ -38,6 +38,8 @@ function doClientes() {
 
     const parametroInicio = "?inicio= " + inicio;
 
+    const newLoader = new Loader();
+
     fetch(
       apiUrlClientesGet +
         parametroInicio +
@@ -54,6 +56,7 @@ function doClientes() {
           clientes.clientes,
           buscar
         );
+        newLoader.destroy();
       });
     });
   };
