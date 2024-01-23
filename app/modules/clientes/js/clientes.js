@@ -18,6 +18,14 @@ function doClientes() {
     }
   });
 
+  const nuevoClienteBtn = document.querySelector("#nuevo-cliente-btn");
+
+  nuevoClienteBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    doNuevoCliente();
+    console.log("Funciona")  
+  })
+
   //funcion que recibe pagina actual
   const getClientes = (actual, buscar) => {
     let parametroBuscar = "";
@@ -115,6 +123,8 @@ function doClientes() {
         cliente.direccion;
       clienteContenedor.querySelector(".cliente-datos-sector").textContent =
         "Sector: " + cliente.sector;
+      clienteContenedor.querySelector(".cliente-datos-factura").textContent=
+      formatoMoneda(cliente.facturacion);
 
       cliente.contactos.forEach((contacto, index) => {
         const contactoContenedor = templateContacto.cloneNode(true);
@@ -243,9 +253,35 @@ function doClientes() {
 
   function newBloqueFormulario(){
     const bloqueFormulario = document.querySelector("#bloque-formulario").cloneNode(true);
+
+
     bloqueFormulario.id = "";
     bloqueFormulario.classList.add("bloque-formulario");
     return bloqueFormulario
+  }
+
+  function doNuevoCliente(){
+    const bloqueFormulario = newBloqueFormulario();
+    const clienteFormularioEdicion = bloqueFormulario.querySelector(".cliente-formulario")
+    bloqueFormulario.querySelector(".cliente-contactos-contenedor-formulario").remove();
+    
+    const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-selector']");
+    const botonNuevoClienteEnviar = clienteFormularioEdicion.querySelector(".formulario-boton-enviar");
+    //llamaa a carga de sectores clientes
+    getClientesSectores(clientesSelectSector, "");
+
+    botonNuevoClienteEnviar.addEventListener("click", (e) =>{
+      e.preventDefault();
+      new Modal("¿Quieres dar de alta este cliente?", "confirmacion", guardarNuevoCliente, "");
+    })
+
+    contenedorListado.innerHTML = "";
+    contenedorListado.append(bloqueFormulario);
+    bloqueFormulario.classList.remove("hidden");
+
+    function guardarNuevoCliente(){
+      const datosFormulario = new FormData(clienteFormularioEdicion);
+    }
   }
 
   getClientes();

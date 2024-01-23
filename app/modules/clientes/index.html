@@ -10,6 +10,9 @@
     <script src="../../assets/js/paginacion.js" defer></script>
     <script src="../../assets/js/loader.js"></script>
     <script src="../../assets/js/modal.js"></script>
+    <script src="../../assets/js/formato_moneda.js"></script>
+  
+
     <link rel="stylesheet" href="../../assets/css/theme.css" />
     <link rel="icon" href="../../assets/favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="../../assets/favicon.ico" type="image/x-icon">
@@ -24,7 +27,7 @@
       </nav>
     </header>
     <div id="acciones" class="acciones-paginacion">
-      <div class="btn-success">Nuevo cliente</div>
+      <div class="btn-success" id="nuevo-cliente-btn">Nuevo cliente</div>
       <div id="paginacion">
         <div class="elemento-paginacion elemento-paginacion-actual">1</div>
         <div class="elemento-paginacion ">2</div>
@@ -56,7 +59,8 @@
         <p class="cliente-datos-cif">b000000</p>
         <p class="cliente-datos-tlf">910000000</p>
         <p class="cliente-datos-direccion">c/constitucion 1</p>
-        <p class="cliente-datos-sector">a</p>
+        <p class="cliente-datos-sector"></p>
+        <p class="cliente-datos-factura">a</p>
       </div>
       <div class="cliente-row-contactos">
         <div class="contactos-contacto hidden">
