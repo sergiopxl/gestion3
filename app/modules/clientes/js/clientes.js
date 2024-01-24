@@ -23,10 +23,10 @@ function doClientes() {
   nuevoClienteBtn.addEventListener("click", (event) => {
     event.preventDefault();
     doNuevoCliente();
-    console.log("Funciona")  
+    console.log("Funciona")
   })
 
-  
+
 
   //funcion que recibe pagina actual
   const getClientes = (actual, buscar) => {
@@ -125,8 +125,8 @@ function doClientes() {
         cliente.direccion;
       clienteContenedor.querySelector(".cliente-datos-sector").textContent =
         "Sector: " + cliente.sector;
-      clienteContenedor.querySelector(".cliente-datos-factura").textContent=
-      formatoMoneda(cliente.facturacion);
+      clienteContenedor.querySelector(".cliente-datos-factura").textContent =
+        formatoMoneda(cliente.facturacion);
 
       cliente.contactos.forEach((contacto, index) => {
         const contactoContenedor = templateContacto.cloneNode(true);
@@ -145,8 +145,8 @@ function doClientes() {
   }
 
   function doEditar(cliente) {
-    
-    
+
+
     const bloqueFormulario = newBloqueFormulario();
     const clienteFormularioEdicion = bloqueFormulario.querySelector(".cliente-formulario");
     const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
@@ -172,12 +172,12 @@ function doClientes() {
       "[name = 'input-cliente-direccion']"
     ).value = cliente.direccion;
 
-    getClientesSectores(clientesSelectSector,cliente.id_sector);
+    getClientesSectores(clientesSelectSector, cliente.id_sector);
     setContactos();
 
     botonEnviar.addEventListener("click", (event) => {
       // previene que el evento no tenga ninguna funcionalidad por defecto
-      
+
       event.preventDefault();
       new Modal("¿Seguro que quieres guardar los cambios?", "confirmacion", guardarUpdateCliente, "");
 
@@ -204,28 +204,40 @@ function doClientes() {
         method: "POST",
         body: datosFormulario,
       }).then((response) => {
-        if(!response.ok){
+        if (!response.ok) {
           throw new Error(`No se ha podido leer la tabla de contactos: <br> ${response.status}`);
         }
-         return response.json(); 
-        })
+        return response.json();
+      })
         .then((data) => {
           new Modal(data, "informacion", "", "");
-      })
-      .catch((error) =>{
-        const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servicio tecnico `;
-        new Modal(mensajeError, "informacion", "", "");
-      });
+        })
+        .catch((error) => {
+          const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servicio tecnico `;
+          new Modal(mensajeError, "informacion", "", "");
+        });
     };
 
-    function guardarNuevoContacto(formularioNuevoContacto){
-      console.log(formularioNuevoContacto);
+    function guardarNuevoContacto(formularioNuevoContacto) {
       const datosFormulario = new FormData(formularioNuevoContacto);
       
-
+      fetch(apiUrlClientesContactosPost, { method: "POST", body: datosFormulario })
+        .then((response) => {
+          console.log("datosFormulario",datosFormulario);
+          console.log(response);
+          if (!response.ok) {
+            throw new Error(`No se ha podido leer la tabla de contactos: <br> ${respuesta.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          new Modal(data, "Informacion", "", "");
+        })
+        .catch((error) => {
+          const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servicio técnico`;
+          new Modal(mensajeError, "informacion", "", "");
+        });
     }
-    
-    
 
     contenedorListado.innerHTML = "";
     contenedorListado.append(bloqueFormulario);
@@ -258,7 +270,7 @@ function doClientes() {
     }
   }
 
-  function newBloqueFormulario(){
+  function newBloqueFormulario() {
     const bloqueFormulario = document.querySelector("#bloque-formulario").cloneNode(true);
 
 
@@ -267,19 +279,19 @@ function doClientes() {
     return bloqueFormulario
   }
 
-  function doNuevoCliente(){
+  function doNuevoCliente() {
     const bloqueFormulario = newBloqueFormulario();
     const clienteFormularioEdicion = bloqueFormulario.querySelector(".cliente-formulario")
     console.log("clienteFormularioEdicion", clienteFormularioEdicion);
     bloqueFormulario.querySelector(".cliente-contactos-contenedor-formulario").remove();
-    
+
     const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
     const botonNuevoClienteEnviar = clienteFormularioEdicion.querySelector(".formulario-boton-enviar");
     //llamaa a carga de sectores clientes
     getClientesSectores(clientesSelectSector, "");
     console.log("clientes, " + clientesSelectSector);
 
-    botonNuevoClienteEnviar.addEventListener("click", (e) =>{
+    botonNuevoClienteEnviar.addEventListener("click", (e) => {
       e.preventDefault();
       new Modal("¿Quieres dar de alta este cliente?", "confirmacion", guardarNuevoCliente, "");
     })
@@ -288,21 +300,23 @@ function doClientes() {
     contenedorListado.append(bloqueFormulario);
     bloqueFormulario.classList.remove("hidden");
 
-    function guardarNuevoCliente(){
+    function guardarNuevoCliente() {
       const datosFormulario = new FormData(clienteFormularioEdicion);
-      fetch(apiUrlClientesInsert,{method: "POST", body: datosFormulario})
-      .then((respuesta)=>{
-        if(!respuesta.ok){
-          throw new Error(`Error en la solicitud: ${respuesta.status}`);
-        }
-        new Modal("Cliente dado de alta correctamente", "informacion", doClientes,"");
-        return respuesta.json();
+      fetch(apiUrlClientesInsert, { method: "POST", body: datosFormulario })
+        .then((respuesta) => {
+          if (!respuesta.ok) {
+            throw new Error(`Error en la solicitud: ${respuesta.status}`);
+          }
+          new Modal("Cliente dado de alta correctamente", "informacion", doClientes, "");
+          return respuesta.json();
 
-      }
-    )}
+        }
+        )
+    }
+
   }
   function getClientesSectores(clientesSelectSector, clienteIdSector) {
-    
+
     fetch(apiUrlClientesSectoresGet, {
       method: "GET"
     }).then((respuesta) =>
@@ -320,7 +334,7 @@ function doClientes() {
     );
   }
 
-  
+
 
   getClientes();
 }
