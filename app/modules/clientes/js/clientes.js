@@ -266,14 +266,16 @@ function doClientes() {
 
     function guardarNuevoCliente(){
       const datosFormulario = new FormData(clienteFormularioEdicion);
-      fetch(apiUrlClientesInsert, {method: "POST", body: datosFormulario})
-      .then(respuesta) => {
+      fetch(apiUrlClientesInsert,{method: "POST", body: datosFormulario})
+      .then((respuesta)=>{
         if(!respuesta.ok){
           throw new Error(`Error en la solicitud: ${respuesta.status}`);
         }
+        new Modal("Cliente dado de alta correctamente", "informacion", doClientes,"");
         return respuesta.json();
+
       }
-    }
+    )}
   }
   function getClientesSectores(clientesSelectSector, clienteIdSector) {
     

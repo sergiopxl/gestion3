@@ -15,11 +15,11 @@ $idSector = $_POST["select-cliente-sector"];
 $idCliente = $_POST["input-cliente-id"];
 
 $sqlClienteInsert = "INSERT INTO `clientes_tb`(`nombre`, `cif`, `direccion`, `cp`, `provincia`, `poblacion`, `telefono`, `web`, `descripcion`, `cuenta`, `activo`, `id_sector`, `id_origen`, `id_servicio`, `id_usuario`) 
-VALUES ('$nombre','$cif','$direccion','','','','$telefono','','','','1','$idSector','1','1','1')";
+VALUES ('$nombre','$cif','$direccion','','','','$telefono','','','','1','$idSector','1','1','1') ";
 
 $respuesta = mysqli_query($conn, $sqlClienteInsert);
 
-var_dump($respuesta);
+//var_dump($respuesta);
 if($respuesta){
     echo json_encode("El cliente se hizo correctamente");
 }else{

@@ -49,6 +49,7 @@ class Modal {
       this.botonera.append(this.botonAceptar);
       this.botonAceptar.addEventListener("click", (e) => {
         e.preventDefault();
+        if(accion!="") accion();
         this.destroy();
       });
     }
