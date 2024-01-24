@@ -169,6 +169,26 @@ main {
   background-color: #e2e2e2;
 }
 
+fieldset {
+  border: none;
+}
+
+.bloque-formulario {
+  display: flex;
+}
+
+.cliente-formulario {
+  width: 50%;
+}
+
+.cliente-contactos-contenedor-formulario {
+  width: 50%;
+}
+
+input {
+  margin-left: 1rem;
+}
+
 .loader-background {
   position: absolute;
   top: 0;

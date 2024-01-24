@@ -26,6 +26,8 @@ function doClientes() {
     console.log("Funciona")  
   })
 
+  
+
   //funcion que recibe pagina actual
   const getClientes = (actual, buscar) => {
     let parametroBuscar = "";
@@ -170,7 +172,7 @@ function doClientes() {
       "[name = 'input-cliente-direccion']"
     ).value = cliente.direccion;
 
-    getClientesSectores();
+    getClientesSectores(clientesSelectSector,cliente.id_sector);
     setContactos();
 
     botonEnviar.addEventListener("click", (event) => {
@@ -180,6 +182,20 @@ function doClientes() {
       new Modal("¿Seguro que quieres guardar los cambios?", "confirmacion", guardarUpdateCliente, "");
 
     });
+
+    contactoNuevoBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const formularioNuevoContacto = contactoFormulario.cloneNode(true);
+      formularioNuevoContacto.classList.remove("hidden");
+      const botonEnviarContactoNuevo = formularioNuevoContacto.querySelector("button.enviar");
+      contactoNuevoBtn.after(formularioNuevoContacto, contactosContenedor.querySelector("form"));
+      formularioNuevoContacto.querySelector("button.eliminar").remove();
+      formularioNuevoContacto.querySelector("[name='input-contacto-cliente-id']").value = cliente.id;
+      botonEnviarContactoNuevo.addEventListener("click", (e) => {
+        e.preventDefault();
+        new Modal("Quieres guardar este contacto?", "confirmacion", guardarNuevoContacto, formularioNuevoContacto);
+      });
+    })
 
 
     function guardarUpdateCliente() {
@@ -201,6 +217,13 @@ function doClientes() {
         new Modal(mensajeError, "informacion", "", "");
       });
     };
+
+    function guardarNuevoContacto(formularioNuevoContacto){
+      console.log(formularioNuevoContacto);
+      const datosFormulario = new FormData(formularioNuevoContacto);
+      
+
+    }
     
     
 
@@ -215,8 +238,8 @@ function doClientes() {
         nuevoFormularioContacto.querySelector("[name = 'input-contacto-nombre']").value = contacto.nombre;
         nuevoFormularioContacto.querySelector("[name = 'input-contacto-apellido1']").value = contacto.apellido1;
         nuevoFormularioContacto.querySelector("[name = 'input-contacto-apellido2']").value = contacto.apellido2;
-        nuevoFormularioContacto.querySelector("[name = 'input-contacto-telefono']").value = contacto.telefono;
-        nuevoFormularioContacto.querySelector("[name = 'input-contacto-email']").value = contacto.email;
+        nuevoFormularioContacto.querySelector("[name = 'input-contacto-telefono']").value = contacto.telefono1;
+        nuevoFormularioContacto.querySelector("[name = 'input-contacto-email']").value = contacto.email1;
         const botonEnviar = nuevoFormularioContacto.querySelector("button.enviar");
         const botonEliminar = nuevoFormularioContacto.querySelector("button.eliminar");
         botonEnviar.addEventListener("click", (event) => {
@@ -247,6 +270,7 @@ function doClientes() {
   function doNuevoCliente(){
     const bloqueFormulario = newBloqueFormulario();
     const clienteFormularioEdicion = bloqueFormulario.querySelector(".cliente-formulario")
+    console.log("clienteFormularioEdicion", clienteFormularioEdicion);
     bloqueFormulario.querySelector(".cliente-contactos-contenedor-formulario").remove();
     
     const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
