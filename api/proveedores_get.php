@@ -13,7 +13,7 @@ $condicion = "";
 
 if (isset($_GET["buscar"])) {
     $buscar = $_GET["buscar"];
-    $condicion .= " AND (proveedores_tb.nombre LIKE '%$buscar%' OR proveedores_tb.cif LIKE '%$buscar%') ";
+    $condicion .= " WHERE (proveedores_tb.nombre LIKE '%$buscar%' OR proveedores_tb.cif LIKE '%$buscar%') ";
 }
 
 $limite = " LIMIT $inicio, $porPagina ";
