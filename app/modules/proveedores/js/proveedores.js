@@ -17,7 +17,13 @@ function doProveedores() {
     });
 
     
+    const nuevoProveedorBtn = document.querySelector("#nuevo-proveedor-btn");
 
+    nuevoProveedorBtn.addEventListener("click", (event) =>{
+        event.preventDefault();
+        doNuevoProveedor();
+        console.log("Funciona nuevo proveedor");
+    })
 
     const getProveedores = (actual, buscar) => {
         let parametroBuscar = "";
@@ -95,6 +101,56 @@ function doProveedores() {
             contenedorListado.append(proveedorContenedor);
         })
     }
+
+    function newBloqueFormulario() {
+        const bloqueFormulario = document.querySelector("#bloque-formulario").cloneNode(true);
+    
+    
+        bloqueFormulario.id = "";
+        bloqueFormulario.classList.add("bloque-formulario");
+        return bloqueFormulario
+      }
+
+
+
+    function doNuevoProveedor(){
+        const bloqueFormulario = newBloqueFormulario();
+        const proveedorFormularioEdicion = bloqueFormulario.querySelector(".proveedor-formulario");
+        bloqueFormulario.querySelector(".bloque-formulario").remove();
+
+        const proveedorSelectSector = proveedorFormularioEdicion.querySelector("[name = 'select-proveedor-servicio']");
+        const botonNuevoProveedorEnviar = proveedorFormularioEdicion.querySelector(".formulario-boton-enviar");
+
+
+        /*getClientesSectores(clientesSelectSector, "");
+        console.log("clientes, " + clientesSelectSector);
+        */
+    botonNuevoProveedorEnviar.addEventListener("click", (e) => {
+      e.preventDefault();
+      new Modal("¿Quieres dar de alta este proveedor?", "confirmacion", guardarNuevoProveedor, "");
+    })
+    contenedorListado.innerHTML = "";
+    contenedorListado.append(bloqueFormulario);
+    bloqueFormulario.classList.remove("hidden");
+
+
+    function guardarNuevoProveedor() {
+        const datosFormulario = new FormData(proveedorFormularioEdicion);
+        fetch(apiUrlProveedoresInsert, { method: "POST", body: datosFormulario })
+          .then((respuesta) => {
+            if (!respuesta.ok) {
+              throw new Error(`Error en la solicitud: ${respuesta.status}`);
+            }
+            new Modal("Proveedor dado de alta correctamente", "informacion", doProveedores, "");
+            return respuesta.json();
+
+          }
+          )
+      }
+    }
+
+
+
 
     getProveedores();
 }

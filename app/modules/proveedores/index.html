@@ -24,7 +24,7 @@
     </nav>
   </header>
   <div id="acciones" class="acciones-paginacion">
-    <div class="btn-success" id="nuevo-cliente-btn">Nuevo proveedor</div>
+    <div class="btn-success" id="nuevo-proveedor-btn">Nuevo proveedor</div>
     <div id="paginacion">
       <div class="elemento-paginacion elemento-paginacion-actual">1</div>
       <div class="elemento-paginacion ">2</div>
@@ -68,6 +68,37 @@
       </div>
     </div>
   </div>
+  </div>
+  <!--Esto es para crear nuevos proveedores...Salah-->
+
+  <div id="bloque-formulario" class="hidden">
+    <form action="" class="proveedor-formulario">
+        <input type="text" class="input-formulario-id">
+        <fieldset>
+            <label for="input-proveedor-nombre">Nombre</label>
+            <input type="text" name="input-proveedor-nombre" required="required">
+        </fieldset>
+        <fieldset>
+            <label for="input-proveedor-cif">CIF</label>
+            <input type="text" name="input-proveedor-cif" required="required">
+          </fieldset>
+          <fieldset>
+            <label for="input-proveedor-tlf">Telefono</label>
+            <input type="text" name="input-proveedor-tlf">
+          </fieldset>
+          <fieldset>
+            <label for="input-proveedor-direccion">Direccion</label>
+            <input type="text" name="input-proveedor-direccion">
+          </fieldset>
+          <fieldset>
+            <label for="select-proveedor-servicio">Servicio</label>
+              <select name="select-proveedor-servicio" required="required">
+                <option value="0" selected disabled>Seleccione un servicio</option>
+              </select>
+          </fieldset>
+          <button class="formulario-boton-enviar btn-success">Guardar cambios</button>
+    </form>
+    
   </div>
 </body>
 </html>
