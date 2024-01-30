@@ -7,10 +7,19 @@ function doProveedores() {
     const contenedorListado = document.querySelector("main");
     const templateProveedor = document.querySelector(".proveedor-row");
 
-    const buscadorInput = document.querySelector;
+    const buscadorInput = document.querySelector("#buscador-input");
+    const buscadorBoton = document.querySelector("#buscador-boton");
+    buscadorBoton.addEventListener("click", () => {
+        if(buscadorInput.value != ""){
+            paginaActual = 1;
+            getProveedores(paginaActual, buscadorInput.value)
+        }
+    });
+
+    
 
 
-    const getClientes = (actual, buscar) => {
+    const getProveedores = (actual, buscar) => {
         let parametroBuscar = "";
         let busquedaActiva = false;
         let parametroPorPagina = "&porpagina=" + resultadosPorPagina;
@@ -49,13 +58,13 @@ function doProveedores() {
     function printListaProveedores(registros, proveedores, busqueda) {
         contenedorListado.innerHTML= "";
         if(!busqueda) {
-            doPaginacion(paginaActual, resultadosPorPagina, registros, getClientes);
+            doPaginacion(paginaActual, resultadosPorPagina, registros, getProveedores);
         }else{
             const verTodoBoton = document.createElement("button");
             verTodoBoton.classList.add("btn-info");
             verTodoBoton.textContent = "Ver listado Completo"
             verTodoBoton.addEventListener("click", () => {
-                getClientes();
+                getProveedores();
             });
             document.querySelector("#paginacion").innerHTML = "<h2> Resultados busqueda: " + proveedores.length + "</h2>";
             document.querySelector("#paginacion").append(verTodoBoton);
@@ -76,7 +85,7 @@ function doProveedores() {
         })
     }
 
-    getClientes();
+    getProveedores();
 }
 
 doProveedores();
