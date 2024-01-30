@@ -73,12 +73,23 @@ function doProveedores() {
             const proveedorContenedor = templateProveedor.cloneNode(true);
             proveedorContenedor.classList.remove("hidden");
 
-            // Aqui va la declaracion de la parte de proveedores contactos
+            const proveedoresContactosContenedor = proveedorContenedor.querySelector(".proveedor-row-contactos");
+            const templateContacto = proveedoresContactosContenedor.querySelector(".contactos-contacto");
 
             proveedorContenedor.querySelector(".proveedor-datos-nombre").textContent = proveedores.nombre;
             proveedorContenedor.querySelector(".proveedor-datos-cif").textContent = proveedores.cif;
             proveedorContenedor.querySelector(".proveedor-datos-tlf").textContent = proveedores.telefono;
             proveedorContenedor.querySelector(".proveedor-datos-direccion").textContent = proveedores.direccion;
+
+            proveedores.contactos.forEach((contacto) => {
+                const contactoContenedor = templateContacto.cloneNode(true);
+                contactoContenedor.classList.remove("hidden");
+
+                contactoContenedor.querySelector(".contacto-nombre").textContent = contacto.name + " " + contacto.apell1 + " " + contacto.apell2;
+                contactoContenedor.querySelector(".contacto-telefono").textContent = contacto.phone1;
+                contactoContenedor.querySelector(".contacto-email").textContent = contacto.mail1;
+                proveedoresContactosContenedor.append(contactoContenedor);
+            })
             
 
             contenedorListado.append(proveedorContenedor);

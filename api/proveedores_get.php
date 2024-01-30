@@ -32,7 +32,17 @@ $resultadoProveedores = mysqli_query($conn, $sqlProveedores);
 $proveedores = [];
 
 while ($proveedor = mysqli_fetch_assoc($resultadoProveedores)) {
-    $proveedores[] = $proveedor;
+    $sqlContactos = "SELECT * FROM proveedores_contactos_tb WHERE id_proveedor = " . $proveedor["id"];
+
+    $resultadoContactos = mysqli_query($conn, $sqlContactos);
+    $contactos = [];
+
+    while($contacto = mysqli_fetch_assoc($resultadoContactos)){
+        $contactos[] = $contacto;
+    }
+
+    $proveedor["contactos"] = $contactos;
+    $proveedores[] = $proveedor;    
 }
 
 $respuesta["proveedores"] = $proveedores;
