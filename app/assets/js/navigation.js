@@ -13,6 +13,10 @@ function doNavigation(){
       url : "../../modules/clientes/index.html"
     },
     {
+      literal : "proveedores",
+      url : "../../modules/proveedores/index.html"
+    },
+    {
       literal : "facturas",
       url : "../../modules/facturas/index.html"
     },
@@ -24,6 +28,7 @@ function doNavigation(){
       literal : "informes",
       url : "../../modules/informes/index.html"
     },
+    
   ];
   const navegacionContenedor = document.querySelector("#navegacion-principal ul");
 

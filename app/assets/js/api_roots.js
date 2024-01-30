@@ -9,3 +9,4 @@ const apiUrlClientesUpdate = "http://localhost/gestion3/api/clientes_update.php"
 const apiUrlClientesInsert = "http://localhost/gestion3/api/clientes_post.php";
 const apiUrlClientesContactosUpdate = "http://localhost/gestion3/api/clientes_contactos_update.php";
 const apiUrlClientesContactosPost = "http://localhost/gestion3/api/clientes_contactos_post.php";
+const apiUrlProveedoresGet = "http://localhost/gestion3/api/proveedores_get.php";
