@@ -2,13 +2,18 @@
 console.log("proveedores.js 1.0");
 
 function doProveedores() {
-    let paginaActual = 1; 
-    const contenedorListadoProveedores = document.getElementById("proveedores-listado");
-    const getProveedores = (actual, buscar) => {
-        
+    let paginaActual = 1;
+    const resultadosPorPagina = 10;
+    const contenedorListado = document.querySelector("main");
+    const templateProveedor = document.querySelector(".proveedor-row");
+
+    const buscadorInput = document.querySelector;
+
+
+    const getClientes = (actual, buscar) => {
         let parametroBuscar = "";
         let busquedaActiva = false;
-        let parametroPorPagina = "&porpagina=20";
+        let parametroPorPagina = "&porpagina=" + resultadosPorPagina;
         let inicio;
 
         if (actual) paginaActual = actual;
@@ -23,48 +28,55 @@ function doProveedores() {
             parametroPorPagina = "&porpagina=" + 99999;
         }
 
-        const parametroInicio = "?inicio=" + inicio;
 
-        const newLoader = new Loader();
+        const parametroInicio = "?inicio= " + inicio;
 
-        fetch(
-            apiUrlProveedoresGet +
-            parametroInicio +
-            parametroPorPagina +
-            parametroBuscar, {
-            method: "GET"
-        })
+        fetch(apiUrlProveedoresGet + parametroInicio + parametroPorPagina + parametroBuscar, { method: "GET" })
             .then((respuesta) => {
                 if (!respuesta.ok) {
                     throw new Error(`Error en la solicitud: ${respuesta.status}`);
                 }
                 return respuesta.json();
-            })
-            .then((proveedores) => {
-                printListaProveedores(proveedores.proveedores);
-                newLoader.destroy();
-            })
-            .catch((error) => {
-                newLoader.destroy();
-                const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servicio`;
+            }).then((proveedores) => {
+                printListaProveedores(proveedores.numero_registros, proveedores.proveedores, busquedaActiva);
+            }).catch((error) => {
+                console.log(error);
+                const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servivio`;
                 new Modal(mensajeError, "informacion", "", "");
+            })
+    }
+
+    function printListaProveedores(registros, proveedores, busqueda) {
+        contenedorListado.innerHTML= "";
+        if(!busqueda) {
+            doPaginacion(paginaActual, resultadosPorPagina, registros, getClientes);
+        }else{
+            const verTodoBoton = document.createElement("button");
+            verTodoBoton.classList.add("btn-info");
+            verTodoBoton.textContent = "Ver listado Completo"
+            verTodoBoton.addEventListener("click", () => {
+                getClientes();
             });
-    };
+            document.querySelector("#paginacion").innerHTML = "<h2> Resultados busqueda: " + proveedores.length + "</h2>";
+            document.querySelector("#paginacion").append(verTodoBoton);
+        }
+        proveedores.forEach((proveedores) => {
+            const proveedorContenedor = templateProveedor.cloneNode(true);
+            proveedorContenedor.classList.remove("hidden");
 
-    const printListaProveedores = (proveedores) => {
-        // Limpiamos el contenedor antes de agregar nuevos elementos
-        contenedorListadoProveedores.innerHTML = "";
+            // Aqui va la declaracion de la parte de proveedores contactos
 
-        // Iteramos sobre la lista de proveedores
-        proveedores.forEach((proveedor) => {
-            const proveedorContenedor = document.createElement("div");
-            proveedorContenedor.textContent = `ID: ${proveedor.id}, Nombre: ${proveedor.nombre}, CIF: ${proveedor.cif}`;
-            contenedorListadoProveedores.append(proveedorContenedor);
-        });
-    };
+            proveedorContenedor.querySelector(".proveedor-datos-nombre").textContent = proveedores.nombre;
+            proveedorContenedor.querySelector(".proveedor-datos-cif").textContent = proveedores.cif;
+            proveedorContenedor.querySelector(".proveedor-datos-tlf").textContent = proveedores.telefono;
+            proveedorContenedor.querySelector(".proveedor-datos-direccion").textContent = proveedores.direccion;
+            
 
-    // Llama a la función principal para cargar la lista de proveedores al cargar la página
-    getProveedores();
+            contenedorListado.append(proveedorContenedor);
+        })
+    }
+
+    getClientes();
 }
 
 doProveedores();

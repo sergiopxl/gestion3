@@ -8,9 +8,10 @@
   <script src="../../assets/js/navigation.js" defer></script>
   <script src="js/proveedores.js" defer></script> <!-- Agregamos el script de proveedores -->
   <script src="../../assets/js/paginacion.js" defer></script>
-  <script src="../../assets/js/loader.js"></script>
+  
   <script src="../../assets/js/modal.js"></script>
   <script src="../../assets/js/formato_moneda.js"></script>
+  <script src="js/proveedores.js" defer></script>
 
   <link rel="stylesheet" href="../../assets/css/theme.css" />
   <link rel="icon" href="../../assets/favicon.ico" type="image/x-icon">
@@ -22,7 +23,44 @@
       <ul></ul>
     </nav>
   </header>
+  <div id="acciones" class="acciones-paginacion">
+    <div class="btn-success" id="nuevo-cliente-btn">Nuevo proveedor</div>
+    <div id="paginacion">
+      <div class="elemento-paginacion elemento-paginacion-actual">1</div>
+      <div class="elemento-paginacion ">2</div>
+      <div class="elemento-paginacion ">3</div>
+      <div class="elemento-paginacion ">4</div>
+      <div class="elemento-paginacion ">5</div>
+      <div class="elemento-paginacion ">6</div>
+      <div class="elemento-paginacion ">7</div>
+      <div class="elemento-paginacion ">8</div>
+      <div class="elemento-paginacion ">9</div>
+      <div class="elemento-paginacion ">10</div>
+      <div id="buscador"></div>
+    </div>
+    <div class="buscador-paginacion">
+      <input type="text" id="buscador-input" />
+      <button class="btn-info" id="buscador-boton">Buscar</button>
+    </div>
+  </div>
+  <h1 id="h1-apartado"></h1>
+  <main>    
+  </main>
 
-  <main id="proveedores-listado"></main> <!-- Agregamos un contenedor para el listado de proveedores -->
+
+  <div class="proveedor-row hidden">
+    <div class="proveedor-row-datos">
+      <div class="proveedor-botones">
+        <button class="btn-info proveedor-botones-editar">editar</button>
+        <button class="btn-info proveedor-botones-factura">nueva factura</button>
+      </div>
+      <p class="proveedor-datos-nombre">Nombre</p>
+      <p class="proveedor-datos-cif">b000000</p>
+      <p class="proveedor-datos-tlf">910000000</p>
+      <p class="proveedor-datos-direccion">c/constitucion 1</p>
+      <p class="proveedor-datos-servicio"></p>
+      <p class="proveedor-datos-factura">a</p>
+    </div>
+  </div>
 </body>
 </html>

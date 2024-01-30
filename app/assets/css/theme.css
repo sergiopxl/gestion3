@@ -244,4 +244,48 @@ input {
 .modal-contenedor .btn-cancelar:hover {
   color: #db1139;
   background-color: white;
+}
+
+.proveedor-row {
+  display: flex;
+  gap: 0.5rem;
+  border: 1px solid #b1b0b0;
+  margin-bottom: 0.5rem;
+}
+.proveedor-row .proveedor-row-datos {
+  flex-basis: 30%;
+  padding: 0.5rem 1rem;
+}
+.proveedor-row .proveedor-row-datos .proveedor-datos-nombre {
+  background-color: #9fc5ec;
+  padding: 0.5rem;
+}
+.proveedor-row .proveedor-row-contactos {
+  flex-grow: 1;
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border-left: 1px dashed black;
+}
+.proveedor-row:nth-of-type(odd) {
+  background-color: #e2e2e2;
+}
+
+fieldset {
+  border: none;
+}
+
+.bloque-formulario {
+  display: flex;
+}
+
+.proveedor-formulario {
+  width: 50%;
+}
+
+.proveedor-contactos-contenedor-formulario {
+  width: 50%;
+}
+
+input {
+  margin-left: 1rem;
 }/*# sourceMappingURL=theme.css.map */

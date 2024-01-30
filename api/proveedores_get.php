@@ -6,9 +6,10 @@ header("Access-Control-Allow-Methods: GET");
 
 include("conn/conexion.php");
 
-$inicio = isset($_GET["inicio"]) ? $_GET["inicio"] : 0;
-$porPagina = isset($_GET["porpagina"]) ? $_GET["porpagina"] : 10; 
-$condicion = " WHERE proveedores_tb.activo = 1 ";
+$inicio = $_GET["inicio"];
+$porPagina = $_GET["porpagina"];
+$condicion = "";
+
 
 if (isset($_GET["buscar"])) {
     $buscar = $_GET["buscar"];
@@ -18,7 +19,7 @@ if (isset($_GET["buscar"])) {
 $limite = " LIMIT $inicio, $porPagina ";
 $respuesta = [];
 
-$sqlNumeroRegistros = "SELECT COUNT(*) AS numero_registros FROM proveedores_tb WHERE activo = 1";
+$sqlNumeroRegistros = "SELECT COUNT(*) AS numero_registros FROM proveedores_tb";
 $respuestaNumerosRegistros = mysqli_query($conn, $sqlNumeroRegistros);
 
 $fila = mysqli_fetch_assoc($respuestaNumerosRegistros);
