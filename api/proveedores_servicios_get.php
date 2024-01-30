@@ -5,16 +5,14 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, X-User-ID,X-Token, Accept, Accept-Encoding");
 header("Access-Control-Allow-Methods: GET");
 
-
 include("conn/conexion.php");
 
-$sqlSectores = "SELECT clientes_sectores_tb. * FROM clientes_sectores_tb";
-$resultadoSectores = mysqli_query($conn, $sqlSectores);
-$sectores = [];
-//var_dump($resultadoSectores); 
-while($sector = mysqli_fetch_assoc($resultadoSectores)){
-    $sectores[] = $sector;
-    
-};
+$sqlServicios = "SELECT * FROM proveedores_servicios_tb"; // Modificar la consulta para obtener datos de la tabla correcta
+$resultadoServicios = mysqli_query($conn, $sqlServicios);
+$servicios = [];
 
-echo json_encode($sectores);
+while ($servicio = mysqli_fetch_assoc($resultadoServicios)) {
+    $servicios[] = $servicio;
+}
+
+echo json_encode($servicios);

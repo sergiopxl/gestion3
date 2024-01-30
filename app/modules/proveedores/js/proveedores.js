@@ -132,9 +132,10 @@ function doProveedores() {
         const bloqueFormulario = newBloqueFormulario();
         const proveedorFormularioEdicion = bloqueFormulario.querySelector(".proveedor-formulario");
 
-        const proveedorSelectSector = proveedorFormularioEdicion.querySelector("[name = 'select-proveedor-servicio']");
+        const proveedorSelectServicio = proveedorFormularioEdicion.querySelector("[name = 'select-proveedor-servicio']");
         const botonNuevoProveedorEnviar = proveedorFormularioEdicion.querySelector(".formulario-boton-enviar");
 
+        getProveedoresServicios(proveedorSelectServicio, "");
         // Evento para el botón de enviar en el formulario de nuevo proveedor
         botonNuevoProveedorEnviar.addEventListener("click", (e) => {
             e.preventDefault();
@@ -162,6 +163,27 @@ function doProveedores() {
                 });
         }
     }
+
+
+
+    function getProveedoresServicios(proveedoresSelectServicio, proveedorIdServicio) {
+
+        fetch(apiUrlProveedoresServiciosGet, {
+          method: "GET"
+        }).then((respuesta) =>
+          respuesta.json().then((servicios) => {
+            servicios.forEach((servicio) => {
+              const opcionServicio = document.createElement("option");
+              opcionServicio.value = servicio.id;
+              opcionServicio.textContent = servicio.name;
+              if (proveedorIdServicio != undefined && servicio.id == proveedorIdServicio) {
+                opcionSector.setAttribute("selected", "selected");
+              }
+              proveedoresSelectServicio.append(opcionServicio);
+            });
+          })
+        );
+      }
 
     // Obtener proveedores al cargar la página
     getProveedores();
