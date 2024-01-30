@@ -128,7 +128,7 @@ function doClientes() {
       clienteContenedor.querySelector(".cliente-datos-factura").textContent =
         formatoMoneda(cliente.facturacion);
 
-      cliente.contactos.forEach((contacto, index) => {
+      cliente.contactos.forEach((contacto) => {
         const contactoContenedor = templateContacto.cloneNode(true);
         contactoContenedor.classList.remove("hidden");
 
