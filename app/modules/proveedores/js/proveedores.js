@@ -105,7 +105,6 @@ function doProveedores() {
     function doNuevoProveedor(){
         const bloqueFormulario = newBloqueFormulario();
         const proveedorFormularioEdicion = bloqueFormulario.querySelector(".proveedor-formulario");
-        bloqueFormulario.querySelector(".bloque-formulario").remove();
 
         const proveedorSelectSector = proveedorFormularioEdicion.querySelector("[name = 'select-proveedor-servicio']");
         const botonNuevoProveedorEnviar = proveedorFormularioEdicion.querySelector(".formulario-boton-enviar");
