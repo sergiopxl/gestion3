@@ -24,6 +24,8 @@ function doProveedores() {
         }
     });
 
+
+
     // Botón para agregar un nuevo proveedor
     const nuevoProveedorBtn = document.querySelector("#nuevo-proveedor-btn");
 
@@ -77,6 +79,31 @@ function doProveedores() {
             });
     };
 
+    function doEditar(proveedor) {
+        const bloqueFormulario = newBloqueFormulario();
+        contenedorListado.innerHTML = "";
+        contenedorListado.append(bloqueFormulario);
+        bloqueFormulario.classList.remove("hidden");
+        //datos
+        const proveedorFormularioEdicion = bloqueFormulario.querySelector(".proveedor-formulario");
+
+        const proveedoresSelectServicio = proveedorFormularioEdicion.querySelector("[name = 'select-proveedor-servicio'");
+        const botonEnviar = proveedorFormularioEdicion.querySelector(".formulario-boton-enviar");
+
+        proveedorFormularioEdicion.querySelector("[name = 'input-proveedor-id'").value = proveedor.id;
+        proveedorFormularioEdicion.querySelector("[name = 'input-proveedor-nombre']").value = proveedor.nombre;
+        proveedorFormularioEdicion.querySelector("[name = 'input-proveedor-cif']").value = proveedor.cif;
+        proveedorFormularioEdicion.querySelector("[name = 'input-proveedor-tlf']").value = proveedor.telefono;
+        proveedorFormularioEdicion.querySelector("[name = 'input-proveedor-direccion']").value = proveedor.direccion;
+
+        getProveedoresServicios(proveedoresSelectServicio, proveedor.id_servicio);
+
+        botonEnviar.addEventListener("click", (e) => {
+            e.preventDefault();
+            new Modal("¿Seguro que quieres guardar cambios?", "confirmacion", guardarNuevoProveedor, proveedorFormularioEdicion)
+        })
+    }
+
     // Función para mostrar la lista de proveedores
     function printListaProveedores(registros, proveedores, busqueda) {
         contenedorListado.innerHTML = "";
@@ -96,6 +123,13 @@ function doProveedores() {
             const proveedorContenedor = templateProveedor.cloneNode(true);
             proveedorContenedor.classList.remove("hidden");
 
+            const btnEditar = proveedorContenedor.querySelector(".proveedor-botones-editar");
+            btnEditar.addEventListener("click", (e) => {
+                e.preventDefault();
+                doEditar(proveedor);
+
+            })
+
             const proveedoresContactosContenedor = proveedorContenedor.querySelector(".proveedor-row-contactos");
             const templateContacto = proveedoresContactosContenedor.querySelector(".contactos-contacto");
 
@@ -103,6 +137,7 @@ function doProveedores() {
             proveedorContenedor.querySelector(".proveedor-datos-cif").textContent = proveedor.cif;
             proveedorContenedor.querySelector(".proveedor-datos-tlf").textContent = proveedor.telefono;
             proveedorContenedor.querySelector(".proveedor-datos-direccion").textContent = proveedor.direccion;
+            proveedorContenedor.querySelector(".proveedor-datos-servicio").textContent = proveedor.servicio;
 
             proveedor.contactos.forEach((contacto) => {
                 const contactoContenedor = templateContacto.cloneNode(true);
@@ -147,43 +182,43 @@ function doProveedores() {
         contenedorListado.append(bloqueFormulario);
         bloqueFormulario.classList.remove("hidden");
 
-        // Función para guardar el nuevo proveedor
-        function guardarNuevoProveedor() {
-            const datosFormulario = new FormData(proveedorFormularioEdicion);
-            // Fetch para insertar el nuevo proveedor
-            fetch(apiUrlProveedoresInsert, { method: "POST", body: datosFormulario })
-                .then((respuesta) => {
-                    // Manejar la respuesta
-                    if (!respuesta.ok) {
-                        throw new Error(`Error en la solicitud: ${respuesta.status}`);
-                    }
-                    // Mostrar mensaje de éxito y actualizar la lista de proveedores
-                    new Modal("Proveedor dado de alta correctamente", "informacion", doProveedores, "");
-                    return respuesta.json();
-                });
-        }
+
     }
 
-
+    // Función para guardar el nuevo proveedor
+    function guardarNuevoProveedor(proveedorFormularioEdicion) {
+        const datosFormulario = new FormData(proveedorFormularioEdicion);
+        // Fetch para insertar el nuevo proveedor
+        fetch(apiUrlProveedoresInsert, { method: "POST", body: datosFormulario })
+            .then((respuesta) => {
+                // Manejar la respuesta
+                if (!respuesta.ok) {
+                    throw new Error(`Error en la solicitud: ${respuesta.status}`);
+                }
+                // Mostrar mensaje de éxito y actualizar la lista de proveedores
+                new Modal("Proveedor modificado correctamente", "informacion", doProveedores, "");
+                return respuesta.json();
+            });
+    }
 
     function getProveedoresServicios(proveedoresSelectServicio, proveedorIdServicio) {
 
         fetch(apiUrlProveedoresServiciosGet, {
-          method: "GET"
+            method: "GET"
         }).then((respuesta) =>
-          respuesta.json().then((servicios) => {
-            servicios.forEach((servicio) => {
-              const opcionServicio = document.createElement("option");
-              opcionServicio.value = servicio.id;
-              opcionServicio.textContent = servicio.name;
-              if (proveedorIdServicio != undefined && servicio.id == proveedorIdServicio) {
-                opcionSector.setAttribute("selected", "selected");
-              }
-              proveedoresSelectServicio.append(opcionServicio);
-            });
-          })
+            respuesta.json().then((servicios) => {
+                servicios.forEach((servicio) => {
+                    const opcionServicio = document.createElement("option");
+                    opcionServicio.value = servicio.id;
+                    opcionServicio.textContent = servicio.name;
+                    if (proveedorIdServicio != undefined && servicio.id == proveedorIdServicio) {
+                        opcionServicio.setAttribute("selected", "selected");
+                    }
+                    proveedoresSelectServicio.append(opcionServicio);
+                });
+            })
         );
-      }
+    }
 
     // Obtener proveedores al cargar la página
     getProveedores();

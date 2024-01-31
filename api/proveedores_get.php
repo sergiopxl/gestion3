@@ -31,7 +31,10 @@ $fila = mysqli_fetch_assoc($respuestaNumerosRegistros);
 $respuesta["numero_registros"] = $fila['numero_registros'];
 
 // Consultar los datos de proveedores con la condición de búsqueda
-$sqlProveedores = "SELECT * FROM proveedores_tb $condicion ORDER BY id DESC $limite";
+$sqlProveedores = "SELECT proveedores_tb.*, proveedores_servicios_tb.name AS servicio
+                    FROM proveedores_tb
+                    LEFT JOIN proveedores_servicios_tb ON proveedores_tb.id_servicio = proveedores_servicios_tb.id
+                    $condicion ORDER BY id DESC $limite";
 
 $resultadoProveedores = mysqli_query($conn, $sqlProveedores);
 
