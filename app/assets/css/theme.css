@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -95,7 +96,7 @@ main {
 
 .buscador-paginacion {
   display: flex;
-  flex-direction: row;
+  align-items: center;
 }
 
 .acciones-paginacion {
@@ -140,6 +141,10 @@ main {
   color: white;
   display: flex;
   align-items: center; /* Center items vertically */
+  font-family: "Georgia", serif; /* Puedes reemplazar con una fuente que te guste */
+  font-size: 1.2rem; /* Ajusta el tamaño de la fuente según tus preferencias */
+  margin: 0; /* Elimina el margen predeterminado */
+  border-radius: 8px; /* Ajusta el radio de borde para una apariencia más redondeada */
 }
 
 #navegacion-principal {
@@ -315,7 +320,6 @@ fieldset {
 input, select {
   width: 100%;
   padding: 0.5rem;
-  margin-bottom: 1rem;
   box-sizing: border-box;
 }
 
