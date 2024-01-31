@@ -1,8 +1,12 @@
 #header-pagina{
-  background-color: $color-gris-medio;
   display: flex;
   align-items: center;
   justify-content: center;
  position: sticky;
  top:0px;
+ background-color: #333; /* Dark background for the header */
+ padding: 1rem;
+ color: white;
+ display: flex;
+ align-items: center; /* Center items vertically */
 }

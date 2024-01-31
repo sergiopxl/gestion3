@@ -7,6 +7,7 @@ html,body{
   font-family: $fuente-primaria;
   font-size: $font-size-regular;
   color: black;
+  background-color: #f7f7f7; /* Light gray background */
 }
 a{
   color: inherit;
@@ -31,7 +32,10 @@ main{
 .hidden{
   display: none !important;
 }
-
+.buscador-paginacion{
+  display: flex;
+  flex-direction: row;
+}
 .acciones-paginacion {
   width: $wrapper-size;
   margin: auto;

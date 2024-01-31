@@ -1,5 +1,3 @@
-
-
 #acciones {
   background-color: #eee; /* Light gray background for actions */
   padding: 1rem;
@@ -7,7 +5,6 @@
 }
 
 /* Proveedor Row Styling */
-
 .proveedor-row {
   display: flex;
   gap: 1rem;
@@ -40,7 +37,6 @@
 }
 
 /* Formulario Styling */
-
 #bloque-formulario {
   display: flex;
   gap: 1rem;
@@ -74,9 +70,8 @@ button.formulario-boton-enviar {
 }
 
 /* Additional Adjustments */
-
 .proveedor-datos-nombre, .proveedor-formulario label {
   border-radius: 0.25rem; /* Rounded corners for these elements */
 }
 
-/* Adjust these according to your theme */
+/* Adjust these according to your theme *//*# sourceMappingURL=proveedores.css.map */
