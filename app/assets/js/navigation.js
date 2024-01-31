@@ -5,27 +5,27 @@ console.log("navigation.js 1.1");
 function doNavigation(){
   const apartados = [
     {
-      literal : "inicio",
+      literal : "Inicio",
       url : "../../modules/inicio/index.html"
     },
     {
-      literal : "clientes",
+      literal : "Clientes",
       url : "../../modules/clientes/index.html"
     },
     {
-      literal : "proveedores",
+      literal : "Proveedores",
       url : "../../modules/proveedores/index.html"
     },
     {
-      literal : "facturas",
+      literal : "Facturas",
       url : "../../modules/facturas/index.html"
     },
     {
-      literal : "comunicaciones",
+      literal : "Comunicaciones",
       url : "../../modules/comunicaciones/index.html"
     },
     {
-      literal : "informes",
+      literal : "Informes",
       url : "../../modules/informes/index.html"
     },
     
