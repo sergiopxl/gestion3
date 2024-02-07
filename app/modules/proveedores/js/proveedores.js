@@ -100,7 +100,7 @@ function doProveedores() {
 
         botonEnviar.addEventListener("click", (e) => {
             e.preventDefault();
-            new Modal("¿Seguro que quieres guardar cambios?", "confirmacion", guardarNuevoProveedor, proveedorFormularioEdicion)
+            new Modal("¿Seguro que quieres guardar cambios?", "confirmacion", guardarUpdateProveedor, proveedorFormularioEdicion);
         })
     }
 
@@ -175,7 +175,7 @@ function doProveedores() {
         botonNuevoProveedorEnviar.addEventListener("click", (e) => {
             e.preventDefault();
             // Pedir confirmación antes de agregar el nuevo proveedor
-            new Modal("¿Quieres dar de alta este proveedor?", "confirmacion", guardarNuevoProveedor, "");
+            new Modal("¿Quieres dar de alta este proveedor?", "confirmacion", guardarNuevoProveedor, proveedorFormularioEdicion);
         });
 
         contenedorListado.innerHTML = "";
@@ -186,8 +186,8 @@ function doProveedores() {
     }
 
     // Función para guardar el nuevo proveedor
-    function guardarNuevoProveedor(proveedorFormularioEdicion) {
-        const datosFormulario = new FormData(proveedorFormularioEdicion);
+    function guardarNuevoProveedor(proveedorFormulario) {
+        const datosFormulario = new FormData(proveedorFormulario);
         // Fetch para insertar el nuevo proveedor
         fetch(apiUrlProveedoresInsert, { method: "POST", body: datosFormulario })
             .then((respuesta) => {
@@ -196,10 +196,30 @@ function doProveedores() {
                     throw new Error(`Error en la solicitud: ${respuesta.status}`);
                 }
                 // Mostrar mensaje de éxito y actualizar la lista de proveedores
-                new Modal("Proveedor modificado correctamente", "informacion", doProveedores, "");
+                new Modal("Proveedor dado de alta correctamente", "confirmacion", doProveedores, "");
                 return respuesta.json();
             });
     }
+
+    function guardarUpdateProveedor(proveedorFormularioEdicion) {
+        const datosFormulario = new FormData(proveedorFormularioEdicion);
+        fetch(apiUrlProveedoresUpdate, {
+          method: "POST",
+          body: datosFormulario,
+        }).then((response) => {
+          if (!response.ok) {
+            throw new Error(`No se ha podido leer la tabla de proveedores: <br> ${response.status}`);
+          }
+          return response.json();
+        })
+          .then((data) => {
+            new Modal(data, "confirmacion", getProveedores, "");
+          })
+          .catch((error) => {
+            const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servicio tecnico `;
+            new Modal(mensajeError, "informacion", "", "");
+          });
+      };
 
     function getProveedoresServicios(proveedoresSelectServicio, proveedorIdServicio) {
 

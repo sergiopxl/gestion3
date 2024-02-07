@@ -204,6 +204,61 @@ input {
   margin-left: 1rem;
 }
 
+.factura-row {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 0.5rem;
+  border: 1px solid #b1b0b0;
+  margin-bottom: 0.5rem;
+}
+.factura-row:nth-of-type(odd) {
+  background-color: #e2e2e2;
+}
+.factura-row p {
+  margin: 0.6rem 0;
+}
+.factura-row .factura-botones {
+  flex: 1 0 100%;
+}
+.factura-row .factura-resumen-datos {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1 0 50%;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  border-right: 1px dashed #b1b0b0;
+}
+.factura-row .factura-resumen-datos .factura-resumen {
+  background-color: #b4d2f0;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+.factura-row .factura-items {
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding-right: 0.55rem;
+}
+.factura-row .factura-items .factura-item {
+  margin-bottom: 1.4rem;
+}
+.factura-row .factura-items .factura-item p {
+  margin: 0.6rem 0;
+}
+.factura-row .factura-items .factura-item .item-importe {
+  font-weight: bold;
+}
+
+.bloque-formulario {
+  display: flex;
+}
+.bloque-formulario fieldset {
+  display: flex;
+}
+.bloque-formulario label {
+  min-width: 16ch;
+}
+
 .loader-background {
   position: absolute;
   top: 0;
