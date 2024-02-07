@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: start;
   gap: 0.5rem;
+
   border: 1px solid $color-gris-medio;
   margin-bottom: 0.5rem;
 
@@ -13,23 +14,24 @@
   p {
     margin: 0.6rem 0;
   }
+
   .factura-botones {
     flex: 1 0 100%;
   }
+
   .factura-resumen-datos {
     display: flex;
-    gap: 0.5rem;
     flex: 1 0 50%;
     flex-wrap: wrap;
-    padding: 0.5rem;
+    gap: 0.5rem;
+
     border-right: 1px dashed $color-gris-medio; // Línea separadora
+    padding: 0.5rem;
 
     .factura-resumen {
       background-color: lighten($color-azul, 40%);
       padding: 0.5rem;
       border-radius: 0.25rem;
-    }
-    .factura-fechas {
     }
   }
 
@@ -45,18 +47,36 @@
       p {
         margin: 0.6rem 0;
       }
-      .item-importe{
+
+      .item-importe {
         font-weight: bold;
       }
     }
   }
 }
-.bloque-formulario {
-  display: flex;
-  fieldset {
+
+#factura-new-template{
+  header{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom:1px solid #666;
   }
-  label {
-    min-width: 16ch;
+  .listado-conceptos{
+    .concepto-template{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between; 
+      fieldset{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        textarea{
+          width: 90%;
+        }
+      }
+    }
   }
 }
