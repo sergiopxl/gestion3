@@ -107,6 +107,7 @@ function doFacturas() {
     console.log(fechaHoy);
 
 
+    
 
     contenedorAcciones.innerHTML = "";
     const botonGuardar = document.createElement("button");
@@ -116,6 +117,14 @@ function doFacturas() {
     botonGuardar.textContent = "Guardar";
     botonNuevoConcepto.textContent = "Nuevo Concepto";
 
+    const botonBuscarCliente = document.querySelector("#buscar-cliente-btn");
+    botonBuscarCliente.addEventListener("click", (e)=>{
+        e.preventDefault();
+        console.log("llegamos al buscador mi loco");
+        buscarCliente();
+        console.log("salimos del buscador mi loco");
+
+    });
     botonGuardar.addEventListener("click", (e) => {
       e.preventDefault();
       guardarNuevaFactura();
@@ -215,17 +224,14 @@ function doFacturas() {
 
   }
   function buscarCliente() {
-    /*
-      - mostrar modal con buscador
-      - evento boton buscar -> getClientes(consulta)
-    */
-    function getClientes(consulta) {
-      /*
-        - consulta al api 
-        - mostrar resultados
-        - evento seleccionar resultado
-      */
-    }
+    
+    const busqueda = new Buscador();
+    
   }
+    
+   
+    
+  
+  
 }
 doFacturas();

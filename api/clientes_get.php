@@ -6,16 +6,20 @@ header("Access-Control-Allow-Methods: GET");
 
 include("conn/conexion.php");
 
-$inicio = $_GET["inicio"];
-$porPagina = $_GET["porpagina"];
+
 $condicion = " WHERE activo = 1 ";
+$limite = "";
 
 if (isset($_GET["buscar"])) {
     $buscar = $_GET["buscar"];
     $condicion = " WHERE activo = 1 AND (clientes_tb.nombre LIKE '%$buscar%' OR clientes_tb.cif LIKE '%$buscar%') ";
 }
+if (isset($_GET["inicio"])) {
+    $inicio = $_GET["inicio"];
+    $porPagina = $_GET["porpagina"];
+    $limite = " LIMIT $inicio, $porPagina ";
+}
 
-$limite = " LIMIT $inicio, $porPagina ";
 $respuesta = [];
 
 $sqlNumeroRegistros = "SELECT COUNT(*) AS numero_registros FROM clientes_tb WHERE activo = 1";

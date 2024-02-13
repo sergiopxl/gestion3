@@ -51,29 +51,17 @@ function doClientes() {
 
     const newLoader = new Loader();
 
-    fetch(
-      apiUrlClientesGet +
-      parametroInicio +
-      parametroPorPagina +
-      parametroBuscar, {
+    fetch(apiUrlClientesGet +parametroInicio +parametroPorPagina +parametroBuscar, {
       method: "GET"
-    }
-    )
-      .then((respuesta) => {
+    }).then((respuesta) => {
         if (!respuesta.ok) {
           throw new Error(`Error en la solicitud: ${respuesta.status}`);
         }
         return respuesta.json();
-      })
-      .then((clientes) => {
-        printlistaClientes(
-          clientes.numero_registros,
-          clientes.clientes,
-          buscar
-        );
+      }).then((clientes) => {
+        printlistaClientes(clientes.numero_registros,clientes.clientes,buscar);
         newLoader.destroy();
-      })
-      .catch((error) => {
+      }).catch((error) => {
         newLoader.destroy();
         const mensajeError = `Error en la solicitud: <br> ${error} <br> Consulte con el servicio`;
         new Modal(mensajeError, "informacion", "", "");
