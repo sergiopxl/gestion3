@@ -216,6 +216,7 @@ function doFacturas() {
     });
     valorImporte.value = sumatorio;
     sumatorio = sumatorio *(1+(importeIva.value/100));
+    console.log(importeIva.value);
     
     contenedorImporte.textContent = formatoMoneda(sumatorio);
   }
