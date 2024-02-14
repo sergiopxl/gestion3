@@ -106,12 +106,13 @@ function doFacturas() {
     templateNuevaFactura.querySelector("[name='input-fecha-emision']").value = fechaHoy;
     console.log(fechaHoy);
 
-
-    
-
     contenedorAcciones.innerHTML = "";
     const botonGuardar = document.createElement("button");
     botonGuardar.classList.add("btn-success");
+    botonGuardar.addEventListener("click",(e)=>{
+          e.preventDefault();
+          guardarNuevaFactura();
+    });
     const botonNuevoConcepto = document.createElement("button");
     botonNuevoConcepto.classList.add("btn-success");
     botonGuardar.textContent = "Guardar";
@@ -150,13 +151,41 @@ function doFacturas() {
     */
 
     function guardarNuevaFactura() {
-      /*
-        - recogida de datos del formulario creando un JSON, no se puede hacer con un FormData.
-        - envio de datos al API POST, los datos del body han de ir en formato JSON pero convertidos a cadena.
-        - información resultado del alta
-      */
-    }
 
+      const factura =  {
+        //id: document.querySelector(""),
+        baseImponible : document.querySelector("[name='input-baseimponible']").value,
+        iva: document.querySelector("[name='input-iva']").value,
+        fecha_emision: document.querySelector("[name='input-fecha-emision']").value,
+        idCliente: document.querySelector("[name='input-id-cliente']").value,
+        items: new Array()
+      }
+      const items = document.querySelectorAll(".concepto-template");
+
+      items.forEach((item)=>{
+        factura.items.push({
+          descricion: item.querySelector("[name='descripcion-concepto]").value,
+          importe: item.querySelector("[name='input-importe]").value,
+
+        });
+      });
+
+      const facturaString = JSON.stringify(factura);
+      
+
+      fetch(apiFacturasCreate, {method:"POST", body: facturaString})
+      .then((response)=>{
+        if(!response==ok){
+          throw new Error(`No se ha podido leer la tabla de contactos: <br> ${response.status}`);
+        }
+        return response.json();
+      }).then((data) => {
+        new Modal(data, "informacion", "", "");
+      }).catch((error)=>{
+          const mensajeError = `Se ha producido un error en la creacion de la factura ${error}`;
+          new Modal(mensajeError,"informacion","",""); 
+      })
+    }
   }
 
   function editarFactura(factura) {
