@@ -10,7 +10,7 @@ class Buscador{
     button = document.createElement("button");
     results = document.createElement("div");
 
-    constructor(){
+    constructor(contenedorNombre, clienteId){
 
         document.querySelector("main").classList.add("blur");
         this.container.classList.add("buscador-container");
@@ -31,6 +31,7 @@ class Buscador{
 
         this.button.addEventListener("click", (e)=>{
             e.preventDefault();
+            this.results.innerHTML="";
             const parametros = "?buscar="+this.input.value;
             fetch(apiUrlClientesGet+parametros, {
                 method :"GET"
@@ -45,12 +46,20 @@ class Buscador{
                 clientes.clientes.forEach((cliente) => {
                     const nombreCliente = document.createElement("p");
                     nombreCliente.textContent = cliente.nombre;
-                    this.results.append(nombreCliente);
+                    nombreCliente.classList.add("cursor");                   
+                    this.results.append(nombreCliente); 
+                    nombreCliente.addEventListener("click", (e)=>{
+                        console.log("estas clickando");
+                        this.destroy();
+                        contenedorNombre.textContent= cliente.nombre;
+                        clienteId.value = cliente.id;              
+                    })                   
                 });                
             }).catch((error) =>{
                 const mensajeError = `Èrror en la solicitud: <br> ${error} <br> Consulte con el servicio`;
                 new Modal(mensajeError, "informacion", "", "");
-            });            
+            });
+                       
         });
     }
 

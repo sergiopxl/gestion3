@@ -134,6 +134,15 @@ main {
   color: white;
 }
 
+.cursor {
+  cursor: pointer;
+  padding: 0.3rem;
+}
+
+.cursor:hover {
+  background-color: #e6e6e6;
+}
+
 #header-pagina {
   display: flex;
   align-items: center;

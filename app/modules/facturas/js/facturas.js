@@ -224,8 +224,9 @@ function doFacturas() {
 
   }
   function buscarCliente() {
-    
-    const busqueda = new Buscador();
+    const contendorNombreCliente = document.querySelector(".cliente-vista span");
+    const inputIdCCliente = document.querySelector("[name='input-id-cliente']");
+    const busqueda = new Buscador(contendorNombreCliente, inputIdCCliente);
     
   }
     
