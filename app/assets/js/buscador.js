@@ -63,9 +63,6 @@ class Buscador{
                             contenedorContactos.append(cont);
                         })
                          
-
-
-                                 
                     })                   
                 });                
             }).catch((error) =>{

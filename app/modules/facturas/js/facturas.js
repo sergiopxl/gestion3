@@ -205,6 +205,7 @@ function doFacturas() {
   }
   function calcularImporteTotal() {
     const contenedorImporte = document.querySelector(".importe-total");
+    const valorImporte = document.querySelector('[name="input-baseimponible"]')
     
     const listaImportes = document.querySelectorAll("[name= 'input-importe']");
     let sumatorio = 0;
@@ -213,9 +214,9 @@ function doFacturas() {
       //console.log(elemento.value);
       sumatorio += parseFloat(elemento.value);
     });
-
+    valorImporte.value = sumatorio;
     sumatorio = sumatorio *(1+(importeIva.value/100));
-
+    
     contenedorImporte.textContent = formatoMoneda(sumatorio);
   }
   function eliminarItem(item) {
