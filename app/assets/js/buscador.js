@@ -10,7 +10,7 @@ class Buscador{
     button = document.createElement("button");
     results = document.createElement("div");
 
-    constructor(contenedorNombre, clienteId){
+    constructor(contenedorNombre, clienteId, contenedorContactos){
 
         document.querySelector("main").classList.add("blur");
         this.container.classList.add("buscador-container");
@@ -44,6 +44,7 @@ class Buscador{
                 console.log(clientes)
                 //this.printResultadosBusqueda(clientes);
                 clientes.clientes.forEach((cliente) => {
+                    console.log(cliente);
                     const nombreCliente = document.createElement("p");
                     nombreCliente.textContent = cliente.nombre;
                     nombreCliente.classList.add("cursor");                   
@@ -52,7 +53,19 @@ class Buscador{
                         console.log("estas clickando");
                         this.destroy();
                         contenedorNombre.textContent= cliente.nombre;
-                        clienteId.value = cliente.id;              
+                        clienteId.value = cliente.id;
+                        contenedorContactos.innerHTML = '<option value="" selected disabled> Seleccione contacto</option>';
+                        cliente.contactos.forEach((contacto)=>{
+                            console.log("Bucle de contactos");
+                            const cont = document.createElement("option")
+                            cont.value = contacto.id;
+                            cont.textContent = contacto.nombre;
+                            contenedorContactos.append(cont);
+                        })
+                         
+
+
+                                 
                     })                   
                 });                
             }).catch((error) =>{

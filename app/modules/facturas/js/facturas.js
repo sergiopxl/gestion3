@@ -226,7 +226,8 @@ function doFacturas() {
   function buscarCliente() {
     const contendorNombreCliente = document.querySelector(".cliente-vista span");
     const inputIdCCliente = document.querySelector("[name='input-id-cliente']");
-    const busqueda = new Buscador(contendorNombreCliente, inputIdCCliente);
+    const selectContactos = document.querySelector("[name= 'contacto-select']");
+    const busqueda = new Buscador(contendorNombreCliente, inputIdCCliente, selectContactos);
     
   }
     
