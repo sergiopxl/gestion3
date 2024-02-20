@@ -4,7 +4,7 @@ console.log("clientes.js 1.1");
 function doClientes() {
   //declaracion de variabless
   let paginaActual = 1;
-  const resultadosPorPagina = 200;
+  const resultadosPorPagina = 50;
 
   const contenedorListado = document.querySelector("main");
   const templateCliente = document.querySelector(".cliente-row");
@@ -134,7 +134,6 @@ function doClientes() {
 
   function doEditar(cliente) {
 
-
     const bloqueFormulario = newBloqueFormulario();
     const clienteFormularioEdicion = bloqueFormulario.querySelector(".cliente-formulario");
     const clientesSelectSector = clienteFormularioEdicion.querySelector("[name = 'select-cliente-sector']");
@@ -143,8 +142,6 @@ function doClientes() {
     const contactosContenedor = bloqueFormulario.querySelector(".cliente-contactos-contenedor-formulario");
     const contactoNuevoBtn = contactosContenedor.querySelector(".nuevo-contacto-boton");
     const contactoFormulario = contactosContenedor.querySelector("form");
-
-
 
     clienteFormularioEdicion.querySelector("[name = 'input-cliente-id']").value = cliente.id;
     clienteFormularioEdicion.querySelector(

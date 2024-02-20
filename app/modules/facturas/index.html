@@ -85,9 +85,11 @@
         <input type="text" name="input-iva" id="">
       </fieldset>
 
-      <div class="base-imponible-vista"></div>
       <div class="importe-total">Importe</div>
-
+      <fieldset>
+        <label for="">Fecha emisión</label>
+        <input type="date" name="input-fecha-emision">
+      </fieldset>
       <input type="hidden" name="input-id-cliente">
       <div class="cliente-vista">Cliente: <span></span></div>
       <button id="buscar-cliente-btn">Buscar cliente</button>
@@ -96,10 +98,7 @@
           <option value="" selected disabled> Seleccione contacto</option>
         </select>
       </div>
-      <fieldset>
-        <label for="">Fecha emisión</label>
-        <input type="date" name="input-fecha-emision">
-      </fieldset>
+
     </header>
     <div class="listado-conceptos">
       <div id="concepto-template" class="hidden">

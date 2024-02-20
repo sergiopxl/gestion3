@@ -264,10 +264,15 @@ input {
 }
 
 #factura-new-template header {
-  display: flex;
-  align-items: center;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  grid-template-columns: repeat(3, calc(33.3333333333% - 1rem));
   justify-content: space-between;
   padding-bottom: 1rem;
+  border-bottom: 1px solid #666;
+}
+#factura-new-template header .cliente-vista, #factura-new-template header .importe-total {
   border-bottom: 1px solid #666;
 }
 #factura-new-template .listado-conceptos .concepto-template {
