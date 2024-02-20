@@ -60,6 +60,7 @@ class Modal {
   }
 
   destroy() {
+    location.reload();
     this.contendor.remove();
   }
 

@@ -75,7 +75,6 @@ function doFacturas() {
     }
 
     )
-
     /*
       - limpiar main
       + bucle sobre el array de facturas
@@ -126,11 +125,7 @@ function doFacturas() {
         console.log("salimos del buscador mi loco");
 
     });
-    botonGuardar.addEventListener("click", (e) => {
-      e.preventDefault();
-      guardarNuevaFactura();
-    });
-
+    
     botonNuevoConcepto.addEventListener("click", (e) => {
       e.preventDefault();
       crearItem();
@@ -150,42 +145,46 @@ function doFacturas() {
       - evento botón guardar -> guardarNuevaFactura()
     */
 
-    function guardarNuevaFactura() {
-
-      const factura =  {
-        //id: document.querySelector(""),
-        baseImponible : document.querySelector("[name='input-baseimponible']").value,
-        iva: document.querySelector("[name='input-iva']").value,
-        fecha_emision: document.querySelector("[name='input-fecha-emision']").value,
-        idCliente: document.querySelector("[name='input-id-cliente']").value,
-        items: new Array()
-      }
-      const items = document.querySelectorAll(".concepto-template");
-
-      items.forEach((item)=>{
-        factura.items.push({
-          descricion: item.querySelector("[name='descripcion-concepto]").value,
-          importe: item.querySelector("[name='input-importe]").value,
-
+      function guardarNuevaFactura() {
+        const factura = {
+            baseImponible: document.querySelector("[name='input-baseimponible']").value,
+            iva: document.querySelector("[name='input-iva']").value,
+            fecha_emision: document.querySelector("[name='input-fecha-emision']").value,
+            idCliente: document.querySelector("[name='input-id-cliente']").value,
+            items: []
+        };
+    
+        const items = document.querySelectorAll(".concepto-template");
+    
+        items.forEach((item) => {
+            factura.items.push({
+                descripcion: item.querySelector("[name='descripcion-concepto']").value,
+                importe: item.querySelector("[name='input-importe']").value
+            });
         });
-      });
-
-      const facturaString = JSON.stringify(factura);
-      
-
-      fetch(apiFacturasCreate, {method:"POST", body: facturaString})
-      .then((response)=>{
-        if(!response==ok){
-          throw new Error(`No se ha podido leer la tabla de contactos: <br> ${response.status}`);
-        }
-        return response.json();
-      }).then((data) => {
-        new Modal(data, "informacion", "", "");
-      }).catch((error)=>{
-          const mensajeError = `Se ha producido un error en la creacion de la factura ${error}`;
-          new Modal(mensajeError,"informacion","",""); 
-      })
+    
+        const facturaString = JSON.stringify(factura);
+    
+        fetch(apiUrlFacturasCreate, {
+            method: "POST",
+            body: facturaString
+        })
+        .then((response) => {
+            if (!response.ok) { // Corregido: response.ok en lugar de !response==ok
+                throw new Error(`No se ha podido leer la tabla de contactos: <br> ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+          const message = data.message;
+            new Modal(message, "informacion", "", "");
+        })
+        .catch((error) => {
+            const mensajeError = `Se ha producido un error en la creacion de la factura ${error}`;
+            new Modal(mensajeError, "informacion", "", ""); 
+        });
     }
+    
   }
 
   function editarFactura(factura) {

@@ -41,10 +41,10 @@ class Buscador{
                 }
                 return respuesta.json();
             }).then((clientes) => {
-                console.log(clientes)
+                //console.log(clientes)
                 //this.printResultadosBusqueda(clientes);
                 clientes.clientes.forEach((cliente) => {
-                    console.log(cliente);
+                    //console.log(cliente);
                     const nombreCliente = document.createElement("p");
                     nombreCliente.textContent = cliente.nombre;
                     nombreCliente.classList.add("cursor");                   
@@ -56,7 +56,7 @@ class Buscador{
                         clienteId.value = cliente.id;
                         contenedorContactos.innerHTML = '<option value="" selected disabled> Seleccione contacto</option>';
                         cliente.contactos.forEach((contacto)=>{
-                            console.log("Bucle de contactos");
+                           // console.log("Bucle de contactos");
                             const cont = document.createElement("option")
                             cont.value = contacto.id;
                             cont.textContent = contacto.nombre;
