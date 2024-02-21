@@ -48,7 +48,6 @@ function doFacturas() {
 
     facturas.forEach((factura) => {
 
-
       const facturasContenedor = templateFactura.cloneNode(true);
       facturasContenedor.id = "";
       facturasContenedor.classList.remove("hidden");
@@ -100,10 +99,10 @@ function doFacturas() {
 
   function nuevaFactura() {
 
-    //const contenedorNuevaFactura = templateNuevaFactura.cloneNode(true);
+    const contenedorNuevaFactura = templateNuevaFactura.cloneNode(true);
     contenedorListado.innerHTML = "";
-    templateNuevaFactura.classList.remove("hidden");
-    contenedorListado.append(templateNuevaFactura);
+    contenedorNuevaFactura.classList.remove("hidden");
+    contenedorListado.append(contenedorNuevaFactura);
 
     let fechaHoy = new Date();
     const dia = fechaHoy.getDate().toString().padStart(2, "0");
@@ -112,7 +111,7 @@ function doFacturas() {
     console.log(anio);
 
     fechaHoy = anio + "-" + mes + "-" + dia;
-    templateNuevaFactura.querySelector("[name='input-fecha-emision']").value = fechaHoy;
+    contenedorNuevaFactura.querySelector("[name='input-fecha-emision']").value = fechaHoy;
     console.log(fechaHoy);
 
     contenedorAcciones.innerHTML = "";
@@ -138,7 +137,7 @@ function doFacturas() {
     
     botonNuevoConcepto.addEventListener("click", (e) => {
       e.preventDefault();
-      crearItem();
+      crearItem(contenedorNuevaFactura);
     });
 
     importeIva.addEventListener("change", () =>{
@@ -158,50 +157,9 @@ function doFacturas() {
       
     
   }
-  function guardarNuevaFactura() {
-    const factura = {
-        baseImponible: document.querySelector("[name='input-baseimponible']").value,
-        iva: document.querySelector("[name='input-iva']").value,
-        fecha_emision: document.querySelector("[name='input-fecha-emision']").value,
-        idCliente: document.querySelector("[name='input-id-cliente']").value,
-        items: []
-    };
-
-    const items = document.querySelectorAll(".concepto-template");
-
-    items.forEach((item) => {
-        factura.items.push({
-            descripcion: item.querySelector("[name='descripcion-concepto']").value,
-            importe: item.querySelector("[name='input-importe']").value
-        });
-    });
-
-    const facturaString = JSON.stringify(factura);
-
-    fetch(apiUrlFacturasCreate, {
-        method: "POST",
-        body: facturaString
-    })
-    .then((response) => {
-        if (!response.ok) { // Corregido: response.ok en lugar de !response==ok
-            throw new Error(`No se ha podido leer la tabla de contactos: <br> ${response.status}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-      const message = data.message;
-        new Modal(message, "informacion", "", "");
-    })
-    .catch((error) => {
-        const mensajeError = `Se ha producido un error en la creacion de la factura ${error}`;
-        new Modal(mensajeError, "informacion", "", ""); 
-    });
-}
-
-  
 
   function editarFactura(factura) {
-console.log(factura);
+    console.log(factura);
     contenedorListado.innerHTML="";
     contenedorAcciones.innerHTML = "";
     const contenedorFactura = templateNuevaFactura.cloneNode(true);
@@ -234,7 +192,7 @@ console.log(factura);
 
     
     factura.items.forEach((item) => {
-      crearItem();
+      crearItem(contenedorFactura);
     })
 
     
@@ -258,10 +216,9 @@ console.log(factura);
      */
     }
   }
-
-  function crearItem() {
+  function crearItem( contenedor ) {
     console.log("creando");
-    const listadoConceptos = templateNuevaFactura.querySelector(".listado-conceptos");
+    const listadoConceptos = contenedor.querySelector(".listado-conceptos");
     const templateItem = document.querySelector("#concepto-template");
     const contenedorItem = templateItem.cloneNode(true);
     contenedorItem.classList.remove("hidden");
@@ -313,10 +270,45 @@ console.log(factura);
     const busqueda = new Buscador(contendorNombreCliente, inputIdCCliente, selectContactos);
     
   }
-    
-   
-    
-  
+  function guardarNuevaFactura() {
+    const factura = {
+        baseImponible: document.querySelector("[name='input-baseimponible']").value,
+        iva: document.querySelector("[name='input-iva']").value,
+        fecha_emision: document.querySelector("[name='input-fecha-emision']").value,
+        idCliente: document.querySelector("[name='input-id-cliente']").value,
+        items: []
+    };
+
+    const items = document.querySelectorAll(".concepto-template");
+
+    items.forEach((item) => {
+        factura.items.push({
+            descripcion: item.querySelector("[name='descripcion-concepto']").value,
+            importe: item.querySelector("[name='input-importe']").value
+        });
+    });
+
+    const facturaString = JSON.stringify(factura);
+
+    fetch(apiUrlFacturasCreate, {
+        method: "POST",
+        body: facturaString
+    })
+    .then((response) => {
+        if (!response.ok) { // Corregido: response.ok en lugar de !response==ok
+            throw new Error(`No se ha podido leer la tabla de contactos: <br> ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
+      const message = data.message;
+        new Modal(message, "informacion", "", "");
+    })
+    .catch((error) => {
+        const mensajeError = `Se ha producido un error en la creacion de la factura ${error}`;
+        new Modal(mensajeError, "informacion", "", ""); 
+    });
+  }  
   
 }
 doFacturas();
