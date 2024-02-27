@@ -8,7 +8,7 @@ function doFacturas() {
   const botonNuevaFactura = document.querySelector("#nueva-factura-btn");
   const templateNuevaFactura = document.querySelector("#factura-new-template");
   const contenedorAcciones = document.querySelector(".acciones-paginacion");
-  let importeIva = document.querySelector("[name = 'input-iva']");
+  let importeIva = ""; 
   
   botonNuevaFactura.addEventListener("click", (e) => {
     e.preventDefault();
@@ -100,6 +100,7 @@ function doFacturas() {
   function nuevaFactura() {
 
     const contenedorNuevaFactura = templateNuevaFactura.cloneNode(true);
+    importeIva = contenedorNuevaFactura.querySelector("[name = 'input-iva']");
     contenedorListado.innerHTML = "";
     contenedorNuevaFactura.classList.remove("hidden");
     contenedorListado.append(contenedorNuevaFactura);
@@ -119,7 +120,7 @@ function doFacturas() {
     botonGuardar.classList.add("btn-success");
     botonGuardar.addEventListener("click",(e)=>{
           e.preventDefault();
-          guardarNuevaFactura();
+          guardarNuevaFactura(apiUrlFacturasCreate);
     });
     const botonNuevoConcepto = document.createElement("button");
     botonNuevoConcepto.classList.add("btn-success");
@@ -139,8 +140,8 @@ function doFacturas() {
       e.preventDefault();
       crearItem(contenedorNuevaFactura);
     });
-
-    importeIva.addEventListener("change", () =>{
+   
+    importeIva.addEventListener("change", () =>{    
       calcularImporteTotal();
     })
     contenedorAcciones.append(botonNuevoConcepto, botonGuardar);
@@ -163,6 +164,7 @@ function doFacturas() {
     contenedorListado.innerHTML="";
     contenedorAcciones.innerHTML = "";
     const contenedorFactura = templateNuevaFactura.cloneNode(true);
+    importeIva = contenedorFactura.querySelector("[name = 'input-iva']");
     contenedorFactura.classList.remove("hidden");
     const botonGuardar = document.createElement("button");
     botonGuardar.classList.add("btn-success");
@@ -184,6 +186,15 @@ function doFacturas() {
       
     })
 
+    importeIva.addEventListener("change", () =>{    
+      calcularImporteTotal();
+    })
+
+    botonNuevoConcepto.addEventListener("click", (e) => {
+      e.preventDefault();
+      crearItem(contenedorFactura);
+    });
+
     contenedorFactura.querySelector("#span-cliente").textContent = factura.cliente;
     contenedorFactura.querySelector("[name='input-iva']").value= factura.iva;
     contenedorFactura.querySelector("[name='input-id-cliente']").value= factura.id_cliente;
@@ -192,7 +203,7 @@ function doFacturas() {
 
     
     factura.items.forEach((item) => {
-      crearItem(contenedorFactura);
+      crearItem(contenedorFactura, item);
     })
 
     
@@ -216,8 +227,8 @@ function doFacturas() {
      */
     }
   }
-  function crearItem( contenedor ) {
-    console.log("creando");
+  function crearItem(contenedor, datosItem) {
+    console.log("creando",datosItem);
     const listadoConceptos = contenedor.querySelector(".listado-conceptos");
     const templateItem = document.querySelector("#concepto-template");
     const contenedorItem = templateItem.cloneNode(true);
@@ -229,9 +240,13 @@ function doFacturas() {
     const importe = contenedorItem.querySelector("[name= 'input-importe']");
     listadoConceptos.append(contenedorItem);
     const botonEliminarItem = contenedorItem.querySelector(".eliminar-concepto");
-
+    if(datosItem != undefined){
+      contenedorItem.querySelector("[name='descripcion-concepto']").textContent = datosItem.descripcion;
+      contenedorItem.querySelector("[name='input-importe']").value = datosItem.importe;
+    }
     botonEliminarItem.addEventListener("click", (e) => {
       e.preventDefault();
+      console.log("hola");
       eliminarItem(contenedorItem);
     })
 
@@ -270,7 +285,7 @@ function doFacturas() {
     const busqueda = new Buscador(contendorNombreCliente, inputIdCCliente, selectContactos);
     
   }
-  function guardarNuevaFactura() {
+  function guardarNuevaFactura(apiUrl) {
     const factura = {
         baseImponible: document.querySelector("[name='input-baseimponible']").value,
         iva: document.querySelector("[name='input-iva']").value,
@@ -290,7 +305,7 @@ function doFacturas() {
 
     const facturaString = JSON.stringify(factura);
 
-    fetch(apiUrlFacturasCreate, {
+    fetch(apiUrl, {
         method: "POST",
         body: facturaString
     })
