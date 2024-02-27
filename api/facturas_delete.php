@@ -13,7 +13,7 @@ if (!$data) {
 }
 
 $idItem = $data['id'];
-echo json_encode($idItem);
+
 $sqlItems = "DELETE FROM `facturas_items_tb` WHERE id = ". $idItem;
 
 

@@ -281,7 +281,7 @@ function doFacturas() {
     contenedorImporte.textContent = formatoMoneda(sumatorio);
   }
   function eliminarItem(item) {    
-    const idItem = item.querySelector("[name = 'input-id-item']");
+    const idItem = item.querySelector("[name = 'input-id-item']").value;
     const facturaString1 = JSON.stringify({id : idItem });
     fetch(apiUrlFacturasDelete, {method: "POST", body:facturaString1})
       .then((respuesta) => {
