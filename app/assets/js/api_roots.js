@@ -14,3 +14,5 @@ const apiUrlProveedoresInsert = "http://localhost/gestion3/api/proveedores_post.
 const apiUrlProveedoresServiciosGet = "http://localhost/gestion3/api/proveedores_servicios_get.php";
 const apiUrlProveedoresUpdate =  "http://localhost/gestion3/api/proveedores_update.php";
 const apiUrlFacturasCreate = "http://localhost/gestion3/api/facturas_post.php";
+const apiUrlFacturasUpdate = "http://localhost/gestion3/api/facturas_update.php";
+const apiUrlFacturasDelete = "http://localhost/gestion3/api/facturas_delete.php";

@@ -60,6 +60,7 @@ function doFacturas() {
       const descripcionFactura = facturasContenedor.querySelector(".factura-descripcion").textContent = factura.descricion;
       facturasContenedor.querySelector(".factura-fecha-emision").textContent ="Emision: " + factura.fecha_emision;
       const botonEditarFactura = facturasContenedor.querySelector(".factura-editar-button");
+      
 
       botonEditarFactura.addEventListener("click", (e) => {
         e.preventDefault
@@ -101,6 +102,7 @@ function doFacturas() {
 
     const contenedorNuevaFactura = templateNuevaFactura.cloneNode(true);
     importeIva = contenedorNuevaFactura.querySelector("[name = 'input-iva']");
+    const idItem = 
     contenedorListado.innerHTML = "";
     contenedorNuevaFactura.classList.remove("hidden");
     contenedorListado.append(contenedorNuevaFactura);
@@ -164,13 +166,14 @@ function doFacturas() {
     contenedorListado.innerHTML="";
     contenedorAcciones.innerHTML = "";
     const contenedorFactura = templateNuevaFactura.cloneNode(true);
+    contenedorFactura.querySelector("[name = 'input-baseimponible']").value = factura.baseimponible;
     importeIva = contenedorFactura.querySelector("[name = 'input-iva']");
     contenedorFactura.classList.remove("hidden");
     const botonGuardar = document.createElement("button");
     botonGuardar.classList.add("btn-success");
     botonGuardar.addEventListener("click",(e)=>{
           e.preventDefault();
-          guardarNuevaFactura();
+          guardarNuevaFactura(apiUrlFacturasUpdate, factura.id);
     });
     const botonNuevoConcepto = document.createElement("button");
     botonNuevoConcepto.classList.add("btn-success");
@@ -200,10 +203,12 @@ function doFacturas() {
     contenedorFactura.querySelector("[name='input-id-cliente']").value= factura.id_cliente;
     contenedorFactura.querySelector(".importe-total").textContent = formatoMoneda(factura.baseimponible * (1+ factura.iva/100));
     contenedorFactura.querySelector("[name='input-fecha-emision']").value= factura.fecha_emision;
+    
 
     
     factura.items.forEach((item) => {
       crearItem(contenedorFactura, item);
+      
     })
 
     
@@ -241,6 +246,7 @@ function doFacturas() {
     listadoConceptos.append(contenedorItem);
     const botonEliminarItem = contenedorItem.querySelector(".eliminar-concepto");
     if(datosItem != undefined){
+      contenedorItem.querySelector("[name='input-id-item']").value = datosItem.id;
       contenedorItem.querySelector("[name='descripcion-concepto']").textContent = datosItem.descripcion;
       contenedorItem.querySelector("[name='input-importe']").value = datosItem.importe;
     }
@@ -268,12 +274,23 @@ function doFacturas() {
       sumatorio += parseFloat(elemento.value);
     });
     valorImporte.value = sumatorio;
+
     sumatorio = sumatorio *(1+(importeIva.value/100));
     console.log(importeIva.value);
     
     contenedorImporte.textContent = formatoMoneda(sumatorio);
   }
-  function eliminarItem(item) {
+  function eliminarItem(item) {    
+    const idItem = item.querySelector("[name = 'input-id-item']");
+    const facturaString1 = JSON.stringify({id : idItem });
+    fetch(apiUrlFacturasDelete, {method: "POST", body:facturaString1})
+      .then((respuesta) => {
+        if(!respuesta.ok){
+          throw new Error(`Error en la solicitud:  ${respuesta.status}`);
+        }
+        respuesta.json()
+      })   
+
     item.remove();
     calcularImporteTotal();
 
@@ -285,8 +302,14 @@ function doFacturas() {
     const busqueda = new Buscador(contendorNombreCliente, inputIdCCliente, selectContactos);
     
   }
-  function guardarNuevaFactura(apiUrl) {
+  function guardarNuevaFactura(apiUrl, id, ) {
+
+    if(!id){
+      id = 0;
+    }
+
     const factura = {
+        idFactura : id,
         baseImponible: document.querySelector("[name='input-baseimponible']").value,
         iva: document.querySelector("[name='input-iva']").value,
         fecha_emision: document.querySelector("[name='input-fecha-emision']").value,
@@ -298,6 +321,7 @@ function doFacturas() {
 
     items.forEach((item) => {
         factura.items.push({
+            idItem : item.querySelector("[name='input-id-item']").value,
             descripcion: item.querySelector("[name='descripcion-concepto']").value,
             importe: item.querySelector("[name='input-importe']").value
         });
