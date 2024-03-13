@@ -28,6 +28,11 @@ function doNavigation(){
       literal : "Informes",
       url : "../../modules/informes/index.html"
     },
+
+    {
+      literal : "Usuarios",
+      url: "../../modules/usuarios/index.html"
+    }
     
   ];
   const navegacionContenedor = document.querySelector("#navegacion-principal ul");

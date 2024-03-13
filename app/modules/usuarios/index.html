@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestion | Usuarios</title>
+
+  <script src="../../assets/js/api_roots.js"></script>
+  <script src="../../assets/js/navigation.js" defer></script>
+  <!--script src="../../assets/js/paginacion.js" defer></script-->
+  <script src="../../assets/js/modal.js"></script>
+
+  <script src="js/usuarios.js" defer></script>
+
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+
+  <link rel="icon" href="../../assets/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="../../assets/favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+  <header id="header-pagina">
+    <nav id="navegacion-principal">
+      <ul></ul>
+    </nav>
+  </header>
+
+  <div id="acciones" class="acciones-paginacion">
+    <div class="btn-success" id="nuevo-usuario-btn">Nuevo usuario</div>
+    <!--div id="paginacion"></div>
+    <div class="buscador-paginacion">
+      <input type="text" id="buscador-input" />
+      <button class="btn-info" id="buscador-boton">Buscar</button>
+    </div-->
+  </div>
+
+  <h1 id="h1-apartado"></h1>
+
+  <main></main>
+
+  <!--Template row usuario-->
+  
+  <div id="usuario-row" class="usuario-row hidden">
+    <div class="usuario-avatar">
+      <div class="usuario-id"></div>
+      <img src="" alt="" srcset="">
+    </div>
+    <div class="usuario-nombre"></div>
+    <div class="usuario-email"></div>
+    <div class="usuario-role"></div>
+    <button class="editar-usuario btn-success">Editar</button>
+  </div>
+
+  <!--Template formulario usuario-->
+  <form action="" enctype="multipart/form-data" id="usuario-form" class="usuario-form hidden">
+    <fieldset>
+      <label for="">Nombre</label>
+      <input type="text" name="nombre-usuario">
+    </fieldset>
+    <fieldset>
+      <label>Email</label>
+      <input type="email" name="email-usuario">
+    </fieldset>
+    <fieldset>
+      <label>Password</label>
+      <input type="password" name="password-usuario">
+      <i class="switch-pass">👁</i>
+    </fieldset>
+    <fieldset>
+      <label for="">Avatar</label>
+      <input type="file" name="avatar">
+    </fieldset>
+    <button class="boton-guardar-form btn-success">Guardar</button>
+  </form>
+</body>
+</html>
